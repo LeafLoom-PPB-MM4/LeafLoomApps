@@ -40,7 +40,7 @@ flutter:
     - assets/logos/
     - assets/images/
     - assets/icons/
-    - assets/images/on_boarding_images
+    - assets/images/on_boarding_images/
   fonts:
     - family: Lato
       fonts:

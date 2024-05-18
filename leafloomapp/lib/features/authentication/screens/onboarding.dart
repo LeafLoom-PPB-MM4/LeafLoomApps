@@ -18,19 +18,36 @@ class OnBoardingScreen extends StatelessWidget {
               Column(
                 children: [
                   Image(
-                    width: LHelperFunctions.screenWidth() * 0.8,
+                    width: LHelperFunctions.screenWidth() * 1,
                     height: LHelperFunctions.screenHeight() * 0.6,
                     image: AssetImage(LImages.onBoardingImage1),
+                    fit: BoxFit.cover,
                   ),
+                  SizedBox(height: LSizes.spaceBtwItems),
+                  Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildSliderDot(),
+                        _buildSliderDot(),
+                        _buildSliderDot(),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: LSizes.spaceBtwItems),
                   Text(
                     LText.onBoardingSubTitle1,
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium!
+                        .copyWith(color: const Color(0xFF103B2D)),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: LSizes.spaceBtwItems),
+                  SizedBox(height: LSizes.spaceBtwItems),
                   Text(
-                    LText
-                        .onBoardingSubTitle2, // corrected from onBoardingSubTitle1
+                    LText.onBoardingSubTitle2,
                     style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
@@ -39,12 +56,52 @@ class OnBoardingScreen extends StatelessWidget {
             ],
           ),
 
-          //skip button
+          // Skip button
+          Positioned(
+            left: 25,
+            bottom: 25,
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Color(0xFF103B2D)),
+                backgroundColor: Colors.white,
+              ),
+              child: Text(
+                'Lewati',
+                style: TextStyle(color: Color(0xFF103B2D)),
+              ),
+            ),
+          ),
 
-          //Dot Navigation SmoothPageIndicator
-
-          //circular button
+          // Next button
+          Positioned(
+            right: 25,
+            bottom: 25,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Color(0xFF103B2D),
+                ),
+                child: Text('Berikutnya'),
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSliderDot() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 4),
+      width: 10,
+      height: 10,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Color(0xFF103B2D),
       ),
     );
   }
