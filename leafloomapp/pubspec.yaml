@@ -13,10 +13,11 @@ dependencies:
   flutter_native_splash: ^2.4.0
 
   # Utility Packages
-  http: ^1.1.0
+  http: ^1.2.1
   intl: ^0.19.0
-  logger: ^2.0.1
-  url_launcher: ^6.1.12
+  logger: ^2.3.0
+  url_launcher: ^6.2.6
+  smooth_page_indicator: ^1.1.0
  
   # State management
   get: ^4.6.5
@@ -39,6 +40,7 @@ flutter:
     - assets/logos/
     - assets/images/
     - assets/icons/
+    - assets/images/on_boarding_images
   fonts:
     - family: Lato
       fonts:
