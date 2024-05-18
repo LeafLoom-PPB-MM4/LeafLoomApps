@@ -4,10 +4,8 @@ import 'package:intl/intl.dart';
 
 class LHelperFunctions {
   static Color? getColor(String value) {
-    //definisikan warna spesifik produk
+    // definisikan warna spesifik produk
     if (value == 'Green') {
-      return Colors.green;
-    } else if (value == 'Green') {
       return Colors.green;
     } else if (value == 'Red') {
       return Colors.red;
@@ -73,8 +71,9 @@ class LHelperFunctions {
     return MediaQuery.of(Get.context!).size.width;
   }
 
-  static String getFormattedDate(DateTime date, {String format = 'dd MMM yyyy'}) {
-    return DateFormat(format).format(date;)
+  static String getFormattedDate(DateTime date,
+      {String format = 'dd MMM yyyy'}) {
+    return DateFormat(format).format(date);
   }
 
   static List<T> removeDuplicates<T>(List<T> list) {
@@ -82,10 +81,11 @@ class LHelperFunctions {
   }
 
   static List<Widget> wrapWidgets(List<Widget> widgets, int rowSize) {
-    final wrappedList = <widget>[];
-    for (var i = 0; i < widget.length; i += rowSize) {
-      final rowChildren = widgets.sublist(i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
-      wrappedList.add(Row(children: (rowChildren)));
+    final wrappedList = <Widget>[];
+    for (var i = 0; i < widgets.length; i += rowSize) {
+      final rowChildren = widgets.sublist(
+          i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
+      wrappedList.add(Row(children: rowChildren));
     }
     return wrappedList;
   }

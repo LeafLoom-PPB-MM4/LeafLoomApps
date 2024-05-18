@@ -1,6 +1,8 @@
+import 'package:intl/intl.dart';
+
 class LFormatter {
   static String formatDate(DateTime? date) {
-    date ?? = DateTime.now();
+    date ??= DateTime.now(); // Penempatan ??= yang benar
     return DateFormat('dd-MMM-yyyy').format(date);
   }
 
@@ -18,15 +20,20 @@ class LFormatter {
   }
 
   static String internationalFormatPhoneNumber(String phoneNumber) {
-    var digitsOnly = phoneNumber.replaceAll(RegExp(r'\D')'');
+    var digitsOnly = phoneNumber.replaceAll(
+        RegExp(r'\D'), ''); // Mengganti tanda kurung tunggal dengan ganda
+
+    if (digitsOnly.length < 2) {
+      return phoneNumber; // Mengatasi kasus di mana nomor telepon kurang dari 2 digit setelah membersihkan karakter non-digit
+    }
 
     String countryCode = '+${digitsOnly.substring(0, 2)}';
     digitsOnly = digitsOnly.substring(2);
 
-    final formatNumber = StringBuffer();
-    formattedNumber.write('($countryCode)');
+    final formattedNumber = StringBuffer(); // Menggunakan StringBuffer
+    formattedNumber.write('($countryCode) ');
 
-    int i = 0; 
+    int i = 0;
     while (i < digitsOnly.length) {
       int groupLength = 2;
       if (i == 0 && countryCode == '+1') {
@@ -37,9 +44,12 @@ class LFormatter {
       formattedNumber.write(digitsOnly.substring(i, end));
 
       if (end < digitsOnly.length) {
-        formateedNumber.write(' ');
+        formattedNumber.write(' ');
       }
       i = end;
     }
+
+    return formattedNumber
+        .toString(); // Mengembalikan hasil format sebagai string
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LDeviceUtils {
   static void hideKeyboard(BuildContext context) {
@@ -16,13 +16,11 @@ class LDeviceUtils {
   }
 
   static bool isLandscapeOrientation(BuildContext context) {
-    final viewInsets = View.of(context).viewInsets;
-    return viewInsets.bottom == 0;
+    return MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
-  static bool isPotraitOrientation(BuildContext context) {
-    final viewInsets = View.of(context).viewInsets;
-    return viewInsets.bottom != 0;
+  static bool isPortraitOrientation(BuildContext context) {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
   }
 
   static void setFullScreen(bool enable) {
@@ -30,20 +28,20 @@ class LDeviceUtils {
         enable ? SystemUiMode.immersiveSticky : SystemUiMode.edgeToEdge);
   }
 
-  static double getScreenHeight() {
-    return MediaQuery.of(Get.context!).size.height;
+  static double getScreenHeight(BuildContext context) {
+    return MediaQuery.of(context).size.height;
   }
 
-  static double getScreenwidth(BuildContext context) {
+  static double getScreenWidth(BuildContext context) {
     return MediaQuery.of(context).size.width;
   }
 
-  static double getPixelRatio() {
-    return MediaQuery.of(Get.context!).devicePixelRatio;
+  static double getPixelRatio(BuildContext context) {
+    return MediaQuery.of(context).devicePixelRatio;
   }
 
-  static double getStatusBarHeight() {
-    return MediaQuery.of(Get.context!).padding.top;
+  static double getStatusBarHeight(BuildContext context) {
+    return MediaQuery.of(context).padding.top;
   }
 
   static double getBottomBarHeight() {
@@ -54,14 +52,12 @@ class LDeviceUtils {
     return kToolbarHeight;
   }
 
-  static double getKeyboardHeight() {
-    final viewInsets = MediaQuery.of(Get.context!).viewInsets;
-    return viewInsets.bottom;
+  static double getKeyboardHeight(BuildContext context) {
+    return MediaQuery.of(context).viewInsets.bottom;
   }
 
-  static Future<bool> isKeyboardVisible() async {
-    final viewInsets = View.of(Get.context!).viewInsets;
-    return viewInsets.bottom > 0;
+  static bool isKeyboardVisible(BuildContext context) {
+    return MediaQuery.of(context).viewInsets.bottom > 0;
   }
 
   static Future<bool> isPhysicalDevice() async {
@@ -105,11 +101,11 @@ class LDeviceUtils {
     return Platform.isAndroid;
   }
 
-  static void launchUrl(String url) async {
-    if (await canLaunchUrlString(url)) {
-      await launchUrlString(url);
+  static Future<void> launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
-      throw 'could not launch $url';
+      throw 'Could not launch $url';
     }
   }
 }
