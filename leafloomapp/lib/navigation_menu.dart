@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafloom/features/shop/screens/home/home.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key});
@@ -42,9 +43,9 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final RxInt selectedIndex = 0.obs;
 
-  final List<Widget> screens = [
-    Container(color: Colors.green),
+  final screens = [
+    const HomeScreen(),
     Container(color: Colors.purple),
-    Container(color: Colors.orange),
+    Container(color: Colors.green),
   ];
 }
