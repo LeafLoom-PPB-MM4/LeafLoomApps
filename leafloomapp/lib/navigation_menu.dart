@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafloom/features/shop/screens/home/home.dart';
+import 'package:leafloom/features/shop/screens/profile/profile.dart';
+import 'package:leafloom/features/shop/screens/shop/produk.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key});
@@ -17,9 +19,11 @@ class NavigationMenu extends StatelessWidget {
           height: 80,
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
-          onDestinationSelected: (index) =>
-              controller.selectedIndex.value = index,
-          backgroundColor: Colors.white, // Atur warna latar belakang di sini
+          onDestinationSelected: (index) {
+            // Navigasi sesuai dengan indeks tombol yang ditekan
+            controller.selectedIndex.value = index;
+          },
+          backgroundColor: Colors.white,
           destinations: const [
             NavigationDestination(
               icon: ImageIcon(AssetImage('assets/icons/beranda.png')),
@@ -45,7 +49,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     const HomeScreen(),
-    Container(color: Colors.purple),
-    Container(color: Colors.green),
+    ProdukScreen(),
+    ProfileScreen(),
   ];
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:leafloom/common/styles/spacing_styles.dart';
 import 'package:leafloom/features/authentication/screens/signup/signup.dart';
 import 'package:leafloom/navigation_menu.dart';
-import 'package:leafloom/utils/constants/image_strings.dart';
+
 import 'package:leafloom/utils/constants/sizes.dart';
 import 'package:leafloom/utils/constants/text_strings.dart'; // Import the SignUpScreen
 

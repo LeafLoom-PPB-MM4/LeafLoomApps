@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafloom/utils/constants/colors.dart';
+import 'package:leafloom/features/shop/screens/shop/produk.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -179,8 +179,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: 10,
                             itemBuilder: (context, index) {
                               return Card(
-                                child:
-                                    Center(child: Text('Product ${index + 1}')),
+                                child: Image.asset(
+                                  'assets/images/produk/produk1.png',
+                                  fit: BoxFit.cover,
+                                ),
                               );
                             },
                           ),
