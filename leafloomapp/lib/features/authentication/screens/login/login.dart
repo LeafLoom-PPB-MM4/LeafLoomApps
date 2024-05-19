@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leafloom/common/styles/spacing_styles.dart';
 import 'package:leafloom/features/authentication/screens/signup/signup.dart';
+import 'package:leafloom/navigation_menu.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
 import 'package:leafloom/utils/constants/sizes.dart';
 import 'package:leafloom/utils/constants/text_strings.dart'; // Import the SignUpScreen
@@ -128,13 +129,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Tambahkan logika untuk tombol masuk
+                          // Tambahkan logika untuk navigasi ke NavigationMenu
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavigationMenu()),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 3, 79, 4),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10), // Sesuaikan dengan radius yang diinginkan
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         child: Text(

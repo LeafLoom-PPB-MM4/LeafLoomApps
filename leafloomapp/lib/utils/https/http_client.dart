@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http; // Tambahkan ini
-import 'package:get/get.dart';
 
 class LHttpHelper {
   static const String _baseUrl =
