@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafloom/features/authentication/screens/onboarding.dart';
+import 'package:leafloom/features/authentication/screens/onboarding/onboarding.dart';
 import 'package:leafloom/utils/theme/theme.dart';
 import 'package:get/get.dart';
 

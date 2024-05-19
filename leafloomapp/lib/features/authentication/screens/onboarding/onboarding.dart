@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafloom/features/authentication/screens/login/login.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
 import 'package:leafloom/utils/constants/sizes.dart';
 import 'package:leafloom/utils/constants/text_strings.dart';
@@ -80,7 +81,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       curve: Curves.easeInOut,
                     );
                   } else {
-                    // Navigate to the next screen
+                    // Navigasi ke halaman login saat di halaman ketiga
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              LoginScreen()), // 2. Push ke halaman LoginScreen
+                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(

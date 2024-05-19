@@ -19,4 +19,30 @@ class LText {
   //Home
   static const String homeAppbarTitle = "Good Day for Shooping";
   static const String homeAppbarSubTitle = "user";
+
+  //login
+  static const String loginTitle = "Selamat Datang Kembali!";
+  //signup
+  static const String signupTitle = "Selamat Datang Di LeaFloom!";
+
+  //authentikasi form teks
+  static const firstName = "First Name";
+  static const lastName = "Last Name";
+  static const email = "E-Mail";
+  static const password = "Password";
+  static const newPassword = "New Password";
+  static const username = "Username";
+  static const phoneNo = "Phone Number";
+  static const rememberMe = "Remember Me";
+  static const forgetPassword = "Forget Password?";
+  static const signIn = "Sign In";
+  static const createAccount = "Create Account";
+  static const orSignInWith = "or sign in with";
+  static const orSignUpWith = "or sign up with";
+  static const iAgreeTo = "i agree to";
+  static const privacyPolicy = "Privacy Policy";
+  static const termsOfUse = "Terms Of Use";
+  static const verificationCode = "verificationCode";
+  static const resendEmail = "Resend Email";
+  static const resendEmailIn = "Resend Email In";
 }
