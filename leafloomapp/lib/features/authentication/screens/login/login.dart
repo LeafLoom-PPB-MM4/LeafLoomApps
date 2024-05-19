@@ -39,14 +39,17 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               // Welcome back title
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 72.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: LSizes.md),
                     Text(
-                      'Selamat datang kembali!',
-                      style: Theme.of(context).textTheme.headline5,
+                      'Selamat Datang Kembali!',
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: LSizes.md),
                   ],
@@ -129,6 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 3, 79, 4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // Sesuaikan dengan radius yang diinginkan
+                          ),
                         ),
                         child: Text(
                           LText.signIn,
@@ -170,6 +177,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.black),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // Sesuaikan dengan radius yang diinginkan
+                          ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -190,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     // Don't have an account? Sign Up text
-                    SizedBox(height: LSizes.spaceBtwInputFields),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

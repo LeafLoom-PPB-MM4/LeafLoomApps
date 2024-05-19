@@ -33,7 +33,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.symmetric(vertical: LSizes.md),
                   child: Text(
                     'Selamat datang di LeaFloom!',
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -142,6 +144,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             : null, // Disable button if not agreed to privacy policy
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 2, 58, 4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // Sesuaikan dengan radius yang diinginkan
+                          ),
                         ),
                         child: Text(
                           'Daftar',
