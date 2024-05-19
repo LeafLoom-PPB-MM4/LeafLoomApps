@@ -8,7 +8,13 @@ class LText {
   static const String onBoardingSubTitle2 =
       "Rasakan keajaiban alam dengan koleksi EcoPrint terbaik kami.";
   static const String onBoardingSubTitle3 =
-      "From Our Doorstep to Yours - Swift, Secure, and Contactless Delivery!";
+      "Eksplorasi Seni Alam dengan Belanja Ramah Lingkungan!";
+  static const String onBoardingSubTitle4 =
+      "Mulailah langkah pertama Anda menuju keberlanjutan dengan setiap produk yang dipilih.";
+  static const String onBoardingSubTitle5 =
+      "Ajak Teman-temanmu Rasakan Keindahan dan Keberlanjutan!";
+  static const String onBoardingSubTitle6 =
+      "Temukan keindahan alam dalam setiap produk, dan bersama kita jaga bumi kita.";
 
   //Home
   static const String homeAppbarTitle = "Good Day for Shooping";
