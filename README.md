@@ -1,4 +1,4 @@
-![image](https://github.com/LeafLoom-PPB-MM4/LeafLoomApps/assets/89963229/f8a11c0f-ccbd-4c2c-8eca-4dfb71a92b80)# LeaFloom Apps
+# LeaFloom Apps
 
 LeaFloom Apps adalah aplikasi yang menyediakan produk EcoPrint berkualitas tinggi. Aplikasi ini dirancang untuk memudahkan Anda dalam mencari, memilih, dan membeli produk-produk EcoPrint dengan mudah dan cepat.
 
@@ -26,11 +26,13 @@ LeaFloom Apps adalah aplikasi yang menyediakan produk EcoPrint berkualitas tingg
 ## Screenshot
 
 ### Beranda Page
-![Beranda](path_to_screenshot_beranda)
+![Beranda]![image](https://github.com/LeafLoom-PPB-MM4/LeafLoomApps/assets/89963229/f8a11c0f-ccbd-4c2c-8eca-4dfb71a92b80)
 
 ### Produk Page
-![Produk](path_to_screenshot_produk)
+![Produk]![image](https://github.com/LeafLoom-PPB-MM4/LeafLoomApps/assets/89963229/c11719d1-a6a8-4ff2-b0dd-6a8c32b03ff8)
+
 
 ### Profile Page
-![Profile](path_to_screenshot_profile)
+![Profile]![image](https://github.com/LeafLoom-PPB-MM4/LeafLoomApps/assets/89963229/07c48d02-0fc8-4adb-a69b-1d9b56bd34b3)
+
 
