@@ -184,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildSocialIcon(String iconName) {
     return Image.asset(
-      'assets/icons/instagram.png',
+      iconName,
       width: 24,
       height: 24,
       color: Colors.green[800],
