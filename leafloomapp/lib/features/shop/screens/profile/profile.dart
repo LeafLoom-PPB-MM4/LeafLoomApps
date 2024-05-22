@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leafloom/features/shop/screens/profile/TentangKamiScreen.dart';
+import 'package:leafloom/features/shop/screens/profile/kebijakanprivasi.dart';
+import 'package:leafloom/features/shop/screens/profile/layananpelanggan.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -73,7 +75,10 @@ class ProfileScreen extends StatelessWidget {
               title: 'Layanan Pelanggan',
               subtitle: 'Informasi tentang layanan pelanggan',
               onTap: () {
-                // Tambahkan logika navigasi ke halaman layanan pelanggan
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Layananpelanggan()),
+                );
               },
               icon: Icons.support, // Icon untuk bagian ini
             ),
@@ -82,7 +87,10 @@ class ProfileScreen extends StatelessWidget {
               title: 'Kebijakan Privasi',
               subtitle: 'Informasi tentang kebijakan privasi',
               onTap: () {
-                // Tambahkan logika navigasi ke halaman kebijakan privasi
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Kebijakanprivasi()),
+                );
               },
               icon: Icons.privacy_tip, // Icon untuk bagian ini
             ),
