@@ -27,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                backgroundColor: Color.fromARGB(255, 212, 209, 209),
-                expandedHeight: 160.0,
+                backgroundColor: Color.fromARGB(255, 221, 216, 216),
+                expandedHeight: 105.0,
                 collapsedHeight: 80.0,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
@@ -46,7 +46,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   prefixIcon: Icon(Icons.search),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    borderSide: BorderSide.none,
+                                    borderSide: BorderSide(
+                                      color: Colors.grey, // Garis tepi default
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: BorderSide(
+                                      color: Colors
+                                          .grey, // Garis tepi saat tidak fokus
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: BorderSide(
+                                      color:
+                                          Colors.green, // Garis tepi saat fokus
+                                    ),
                                   ),
                                   filled: true,
                                   fillColor: Colors.white,
@@ -78,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 delegate: SliverChildListDelegate(
                   [
                     Container(
-                      color: Color.fromARGB(255, 212, 209, 209),
+                      color: Color.fromARGB(255, 255, 255, 255),
                       padding: EdgeInsets.all(16.0),
                       child: Column(
                         children: [

@@ -8,8 +8,8 @@ class ProdukScreen extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            backgroundColor: Colors.white,
-            expandedHeight: 160.0,
+            backgroundColor: const Color.fromARGB(255, 221, 216, 216),
+            expandedHeight: 105.0,
             collapsedHeight: 80.0,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
@@ -63,44 +63,69 @@ class ProdukScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 16.0),
-                      Text(
-                        'Kategori',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                       SizedBox(height: 8.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              // Handle category button press
-                            },
-                            icon: Icon(Icons.shopping_bag),
-                            label: Text('Pakaian'),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle category button press
+                                },
+                                child: Image.asset(
+                                  'assets/icons/pakaian.png',
+                                  width: 48,
+                                  height: 48,
+                                ),
+                              ),
+                              Text('Pakaian'),
+                            ],
                           ),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              // Handle category button press
-                            },
-                            icon: Icon(Icons.shopping_bag),
-                            label: Text('Tas'),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle category button press
+                                },
+                                child: Image.asset(
+                                  'assets/icons/tas.png',
+                                  width: 48,
+                                  height: 48,
+                                ),
+                              ),
+                              Text('Tas'),
+                            ],
                           ),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              // Handle category button press
-                            },
-                            icon: Icon(Icons.shopping_bag),
-                            label: Text('Sepatu'),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle category button press
+                                },
+                                child: Image.asset(
+                                  'assets/icons/sepatu.png',
+                                  width: 48,
+                                  height: 48,
+                                ),
+                              ),
+                              Text('Sepatu'),
+                            ],
                           ),
-                          IconButton(
-                            onPressed: () {
-                              // Handle more options button press
-                            },
-                            icon: Icon(Icons.more_horiz),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle more options button press
+                                },
+                                child: Image.asset(
+                                  'assets/icons/lainya.png',
+                                  width: 48,
+                                  height: 48,
+                                ),
+                              ),
+                              Text('Lainnya'),
+                            ],
                           ),
                         ],
                       ),
