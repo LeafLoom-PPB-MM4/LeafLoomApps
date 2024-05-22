@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafloom/features/shop/screens/profile/TentangKamiScreen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -53,14 +54,19 @@ class ProfileScreen extends StatelessWidget {
               onTap: () {
                 // Tambahkan logika navigasi ke halaman detail informasi
               },
+              icon: Icons.person, // Icon untuk bagian ini
             ),
             SizedBox(height: 12.0),
             _buildSection(
               title: 'Tentang Kami',
               subtitle: 'Informasi tentang aplikasi atau perusahaan',
               onTap: () {
-                // Tambahkan logika navigasi ke halaman tentang kami
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TentangKamiScreen()),
+                );
               },
+              icon: Icons.info, // Icon untuk bagian ini
             ),
             SizedBox(height: 12.0),
             _buildSection(
@@ -69,6 +75,7 @@ class ProfileScreen extends StatelessWidget {
               onTap: () {
                 // Tambahkan logika navigasi ke halaman layanan pelanggan
               },
+              icon: Icons.support, // Icon untuk bagian ini
             ),
             SizedBox(height: 12.0),
             _buildSection(
@@ -77,6 +84,7 @@ class ProfileScreen extends StatelessWidget {
               onTap: () {
                 // Tambahkan logika navigasi ke halaman kebijakan privasi
               },
+              icon: Icons.privacy_tip, // Icon untuk bagian ini
             ),
             SizedBox(height: 12.0),
             // Kotak Keluar
@@ -115,6 +123,7 @@ class ProfileScreen extends StatelessWidget {
     required String title,
     required String subtitle,
     required VoidCallback onTap,
+    required IconData icon, // Menambahkan parameter icon
   }) {
     return InkWell(
       onTap: onTap,
@@ -126,7 +135,8 @@ class ProfileScreen extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.person, color: Colors.green[800]),
+            // Icon ditambahkan di sini
+            Icon(icon, color: Colors.green[800]),
             SizedBox(width: 12.0),
             Expanded(
               child: Column(
