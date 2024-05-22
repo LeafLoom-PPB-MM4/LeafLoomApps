@@ -37,10 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: const EdgeInsets.symmetric(vertical: LSizes.md),
                       child: Text(
                         'Selamat Datang di LeafLoom!',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
-                            ),
+                        style: Theme.of(context).textTheme.headlineLarge,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -56,10 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Daftar ke Aplikasi LeafLoom',
-                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.0,
-                          ),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                 ),
@@ -71,13 +65,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // Full Name Field
                       TextFormField(
                         decoration: InputDecoration(
-                            hintText: 'Nama Lengkap',
-                            hintStyle:
-                                const TextStyle(color: LColors.lightGrey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 3, 46, 4)))),
+                          hintText: 'Nama Lengkap',
+                          hintStyle: const TextStyle(color: LColors.lightGrey),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 3, 46, 4),
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: LSizes.inputFieldRadius),
 
@@ -85,9 +81,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 3, 46, 4))),
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 3, 46, 4),
+                            ),
+                          ),
                           hintText: 'Email',
                           hintStyle: const TextStyle(color: LColors.lightGrey),
                         ),
@@ -98,9 +96,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 3, 46, 4))),
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 3, 46, 4),
+                            ),
+                          ),
                           hintText: 'Nomor Telepon',
                           hintStyle: const TextStyle(color: LColors.lightGrey),
                         ),
@@ -112,9 +112,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 3, 46, 4))),
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 3, 46, 4),
+                            ),
+                          ),
                           hintText: 'Kata Sandi',
                           hintStyle: const TextStyle(color: LColors.lightGrey),
                         ),
@@ -126,9 +128,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 3, 46, 4))),
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 3, 46, 4),
+                            ),
+                          ),
                           hintText: 'Konfirmasi Kata Sandi',
                           hintStyle: const TextStyle(color: LColors.lightGrey),
                         ),
@@ -187,8 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             backgroundColor:
                                 const Color.fromARGB(255, 2, 58, 4),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  10), // Sesuaikan dengan radius yang diinginkan
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           child: const Text(

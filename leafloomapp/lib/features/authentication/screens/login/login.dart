@@ -49,8 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: LSizes.md),
                       Text(
                         'Selamat Datang Kembali!',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontWeight: FontWeight.bold, fontSize: 24),
+                        style: Theme.of(context).textTheme.headlineLarge,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 48),
