@@ -28,14 +28,14 @@ class LText {
   //authentikasi form teks
   static const firstName = "First Name";
   static const lastName = "Last Name";
-  static const email = "E-Mail";
-  static const password = "Password";
+  static const email = "Masukkan Email/Nomor Telepon";
+  static const password = "Masukkan Kata Sandi";
   static const newPassword = "New Password";
   static const username = "Username";
   static const phoneNo = "Phone Number";
-  static const rememberMe = "Remember Me";
-  static const forgetPassword = "Forget Password?";
-  static const signIn = "Sign In";
+  static const rememberMe = "Ingat Saya";
+  static const forgetPassword = "Lupa Kata Sandi?";
+  static const signIn = "Masuk";
   static const createAccount = "Create Account";
   static const orSignInWith = "or sign in with";
   static const orSignUpWith = "or sign up with";

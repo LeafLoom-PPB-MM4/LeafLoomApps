@@ -49,7 +49,7 @@ class LSizes {
 
   //input field
   static const double inputFieldRadius = 12.0;
-  static const double spaceBtwInputFields = 16.0;
+  static const double spaceBtwInputFields = 24.0;
 
   //card sizes
   static const double cardRadiusLg = 16.0;
