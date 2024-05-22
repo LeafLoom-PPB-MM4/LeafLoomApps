@@ -57,10 +57,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 _pageController.jumpToPage(2);
               },
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: Color(0xFF103B2D)),
+                side: const BorderSide(color: Color(0xFF103B2D)),
                 backgroundColor: Colors.white,
               ),
-              child: Text(
+              child: const Text(
                 'Lewati',
                 style: TextStyle(color: Color(0xFF103B2D)),
               ),
@@ -77,7 +77,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 onPressed: () {
                   if (_currentPage < 2) {
                     _pageController.nextPage(
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                     );
                   } else {
@@ -86,33 +86,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              LoginScreen()), // 2. Push ke halaman LoginScreen
+                              const LoginScreen()), // 2. Push ke halaman LoginScreen
                     );
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: Color(0xFF103B2D),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: const Color(0xFF103B2D),
                 ),
-                child: Text('Berikutnya'),
+                child: const Text(
+                  'Berikutnya',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
 
           // Slider dots
-          Positioned(
-            bottom: 80,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSliderDot(0),
-                _buildSliderDot(1),
-                _buildSliderDot(2),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -123,12 +113,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Column(
       children: [
         Image(
-          width: LHelperFunctions.screenWidth() * 1,
-          height: LHelperFunctions.screenHeight() * 0.6,
+          width: double.infinity,
+          height: 500,
           image: AssetImage(image),
           fit: BoxFit.cover,
         ),
-        SizedBox(height: LSizes.spaceBtwItems),
+        const SizedBox(height: LSizes.spaceBtwItems),
         Container(
           width: double.infinity,
           alignment: Alignment.center,
@@ -141,7 +131,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ],
           ),
         ),
-        SizedBox(height: LSizes.spaceBtwItems),
+        const SizedBox(height: LSizes.spaceBtwItems),
         Text(
           subTitle1,
           style: Theme.of(context)
@@ -150,7 +140,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               .copyWith(color: const Color(0xFF103B2D), fontSize: 24),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: LSizes.spaceBtwItems),
+        const SizedBox(height: LSizes.spaceBtwItems),
         Text(
           subTitle2,
           style: Theme.of(context).textTheme.bodyMedium,
@@ -162,12 +152,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   Widget _buildSliderDot(int index) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       width: 10,
       height: 10,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _currentPage == index ? Color(0xFF103B2D) : Colors.grey,
+        color: _currentPage == index ? const Color(0xFF103B2D) : Colors.grey,
       ),
     );
   }
