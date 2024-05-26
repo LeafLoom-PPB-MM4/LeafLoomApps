@@ -1,41 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LColors {
-  LColors._();
-
-  //app basic colors
-  static const Color primary = Color(0xFF4b68ff);
-  static const Color secondary = Color(0xFFFFE24B);
-  static const Color accent = Color(0xFFb0c7ff);
-
-  //gradient colors
-  static const Gradient linearGradient = LinearGradient(
-      begin: Alignment(0.0, 0.0),
-      end: Alignment(0.707, -0.707),
-      colors: [Color(0xffff9a9a), Color(0xfffad0c4), Color(0xfffad0c4)]);
+  //Primary colors
+  static Color primaryLight = const Color(0xFFE9EBF8);
+  static Color primaryNormal = const Color(0xFF124232);
+  static Color primaryDark = const Color(0xFF0E3226);
+  static Color primaryDarker = const Color(0xFF061712);
 
   //Text colors
-  static const Color textPrimary = Color(0xFF333333);
-  static const Color textSecondary = Color(0xFF6C757D);
-  static const Color textWhite = Colors.white;
+  static const Color textLight = Color(0xFFECECEC);
+  static const Color textNormal = Color(0xFF424242);
+  static const Color textDark = Color(0xFF323232);
+  static const Color textDarker = Color(0xFF171717);
 
-  //Background colors
-  static const Color light = Color(0xFFF6F6F6);
-  static const Color dark = Color(0xFF272727);
-  static const Color primaryBackground = Color(0xFFF3F5FF);
-
-  //Background Container colors
-  static const Color lightContainer = Color(0xFFF6F6F6);
-  static Color darkContainer = Colors.white.withOpacity(01);
+  //Secondary colors
+  static const Color secondaryLight = Color(0xFFFFFBE7);
+  static const Color secondaryNormal = Color(0xFFFDDA0D);
+  static const Color secondaryDark = Color(0xFFBEA40A);
+  static const Color secondaryDarker = Color(0xFF594C05);
 
   //Button colors
-  static const Color buttonPrimary = Color(0xFF4b68ff);
+  static const Color buttonPrimary = Color(0xFF124232);
   static const Color buttonSecondary = Color(0xFF6C757D);
   static const Color buttonDisabled = Color(0xFFC4C4C4);
 
   //Border colors
-  static const Color borderPrimary = Color(0xFFD9D9D9);
+  static const Color borderPrimary = Color(0xFF124232);
   static const Color borderSecondary = Color(0xFFE6E6E6);
 
   //Error and Validation colors

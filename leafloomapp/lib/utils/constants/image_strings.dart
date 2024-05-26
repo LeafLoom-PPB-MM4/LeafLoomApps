@@ -13,4 +13,6 @@ class LImages {
       "assets/images/on_boarding_images/on_boarding_2.png";
   static const String onBoardingImage3 =
       "assets/images/on_boarding_images/on_boarding_3.png";
+
+  static const String success = "assets/images/success.png";
 }

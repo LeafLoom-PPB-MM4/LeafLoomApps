@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:leafloom/features/authentication/screens/login/login.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
 import 'package:leafloom/utils/constants/sizes.dart';
 import 'package:leafloom/utils/constants/text_strings.dart';
-import 'package:leafloom/utils/helpers/helper_function.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -82,12 +80,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     );
                   } else {
                     // Navigasi ke halaman login saat di halaman ketiga
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const LoginScreen()), // 2. Push ke halaman LoginScreen
-                    );
+                    Navigator.pushNamed(context, '/login');
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -101,8 +94,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
             ),
           ),
-
-          // Slider dots
         ],
       ),
     );

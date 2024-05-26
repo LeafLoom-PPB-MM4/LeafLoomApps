@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:leafloom/features/authentication/screens/forgot_password/forgot_password_screen.dart';
 import 'package:leafloom/features/authentication/screens/login/login.dart';
 import 'package:leafloom/features/authentication/screens/onboarding/onboarding.dart';
-import 'package:leafloom/features/authentication/screens/onboarding/splash.dart';
 import 'package:leafloom/features/authentication/screens/signup/signup.dart';
-import 'package:leafloom/features/shop/screens/home/home.dart';
-import 'package:leafloom/features/shop/screens/profile/profile.dart';
-import 'package:leafloom/features/shop/screens/shop/produk.dart';
-import 'package:leafloom/features/shop/screens/profile/TentangKamiScreen.dart';
-// Import the SignUpScreen
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,9 +18,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: SplashScreen(),
+      home: OnBoardingScreen(),
       routes: {
         '/signup': (context) => SignUpScreen(),
+        '/login': (context) => LoginScreen(),
+        '/forgot-pass': (context) => ForgotPassScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

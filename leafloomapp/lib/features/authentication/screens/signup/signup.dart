@@ -157,8 +157,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: [
                                   TextSpan(
                                     text: 'Kebijakan Privasi',
-                                    style: const TextStyle(
-                                      color: LColors.primary,
+                                    style: TextStyle(
+                                      color: LColors.primaryNormal,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                     ),
