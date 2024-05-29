@@ -1,53 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:leafloom/common/styles/spacing_styles.dart';
+import 'package:leafloom/features/authentication/controllers.onboarding/log_in_controller.dart';
 import 'package:leafloom/features/authentication/screens/forgot_password/forgot_password_screen.dart';
-import 'package:leafloom/features/authentication/widget/global_text_field_widget.dart';
+import 'package:leafloom/features/authentication/screens/signup/signup.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/icons_constans.dart';
 import 'package:leafloom/utils/constants/sizes.dart';
 import 'package:leafloom/utils/constants/text_strings.dart';
 import 'package:leafloom/navigation_menu.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
+import 'package:leafloom/widget/global_text_field_widget.dart';
+import '../../../../widget/validation.dart';
+import '../../controllers.onboarding/auth_repository.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final FocusNode _emailFocusNode = FocusNode();
-  final TextEditingController _emailController = TextEditingController();
-  String? _emailErrorText;
-  final FocusNode _passwordFocusNode = FocusNode();
-  final TextEditingController _passwordController = TextEditingController();
-  String? _passwordErrorText;
   bool _remindMe = false;
-
-  @override
-  void dispose() {
-    _emailFocusNode.dispose();
-    _emailController.dispose();
-    _passwordFocusNode.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void _validateEmail(String value) {
-    setState(() {
-      _emailErrorText =
-          value.isNotEmpty && value.contains('@') ? null : 'Email tidak valid';
-    });
-  }
-
-  void _validatePassword(String value) {
-    setState(() {
-      _passwordErrorText = value.isNotEmpty && value.length >= 6
-          ? null
-          : 'Kata sandi harus minimal 6 karakter';
-    });
-  }
+  final _formKey = GlobalKey<FormState>(); // Tambahkan GlobalKey<FormState>
 
   void _toggleRemindMe(bool? value) {
     setState(() {
@@ -57,6 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -65,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Welcome back title
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Column(
@@ -74,16 +52,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: LSizes.md),
                       Text(
                         'Selamat Datang Kembali!',
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: LTextTheme.latoBold24.copyWith(
+                          color: LColors.textDark,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 48),
                     ],
                   ),
                 ),
-
-                // Form
                 Form(
+                  key: _formKey, // Tambahkan GlobalKey<FormState> di sini
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -97,14 +76,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      GlobalTextFieldWidget(
-                        focusNode: _emailFocusNode,
-                        controller: _emailController,
-                        errorText: _emailErrorText,
-                        hintText: 'Masukkan Email Anda',
-                        prefixIcon: IconsConstant.email,
-                        showSuffixIcon: false,
-                        onChanged: (value) => _validateEmail(value),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFormField(
+                        controller: controller.email,
+                        validator: (value) => LValidator.validateEmail(value),
+                        decoration: InputDecoration(
+                          hintText: 'Masukkan Email Anda',
+                          hintStyle: TextStyle(color: LColors.lightGrey),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: false,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       SizedBox(
@@ -116,20 +101,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-
-                      // Password Field
-                      GlobalTextFieldWidget(
-                        focusNode: _passwordFocusNode,
-                        controller: _passwordController,
-                        errorText: _passwordErrorText,
-                        hintText: 'Masukkan Kata Sandi Anda',
-                        prefixIcon: IconsConstant.lock,
-                        showSuffixIcon: true,
-                        onChanged: (value) => _validatePassword(value),
+                      TextFormField(
+                        controller: controller.password,
+                        validator: (value) =>
+                            LValidator.validatePassword(value),
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'Masukkan Kata Sandi Anda',
+                          suffixIcon: IconButton(
+                            icon: SvgPicture.asset(
+                              IconsConstant.hide,
+                              color: LColors.lightGrey,
+                            ),
+                            onPressed: () {},
+                          ),
+                          hintStyle: TextStyle(color: LColors.lightGrey),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: false,
+                        ),
                       ),
                       const SizedBox(height: 20),
-
-                      // Remember Me and Forgot Password Row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -161,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/forgot-pass');
+                              Get.offAll(() => ForgotPassScreen());
                             },
                             child: Text(
                               'Lupa Kata Sandi',
@@ -175,17 +168,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: LSizes.spaceBtwItems,
                       ),
-
-                      // Sign In Button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NavigationMenu()),
-                            );
+                            if (_formKey.currentState!.validate()) {
+                              LoginController.instance.loginUser(
+                                controller.email.text.trim(),
+                                controller.password.text.trim(),
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -200,8 +192,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-
-                      // Divider
                       const Row(
                         children: [
                           Expanded(
@@ -223,8 +213,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-
-                      // Sign in with Google Button
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
@@ -254,8 +242,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-
-                      // Don't have an account? Sign Up text
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -265,11 +251,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/signup');
+                              Get.offAll(() => SignUpScreen());
                             },
-                            child: const Text(
+                            child: Text(
                               'Daftar',
-                              style: TextStyle(color: Colors.blue),
+                              style: LTextTheme.latoSemiBold14.copyWith(
+                                color: LColors.primaryNormal,
+                              ),
                             ),
                           ),
                         ],

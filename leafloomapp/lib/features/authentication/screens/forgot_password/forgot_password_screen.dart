@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:leafloom/features/authentication/screens/forgot_password/otp_screen.dart';
-import 'package:leafloom/features/authentication/widget/global_button_widget.dart';
-import 'package:leafloom/features/authentication/widget/global_text_field_widget.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/icons_constans.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
+
+import '../../../../widget/global_button_widget.dart';
+import '../../../../widget/global_text_field_widget.dart';
 
 class ForgotPassScreen extends StatefulWidget {
   const ForgotPassScreen({super.key});

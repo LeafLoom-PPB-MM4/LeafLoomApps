@@ -7,10 +7,10 @@ class IconsConstant {
   static const String search = 'assets/icons/search.svg';
   static const String cart = 'assets/icons/shopping-cart.svg';
   static const String notification = 'assets/icons/notification.svg';
-  static const String pakaian = 'assets/icons/pakaian.svg';
-  static const String tas = 'assets/icons/tas.svg';
-  static const String sepatu = 'assets/icons/sepatu.svg';
-  static const String lainnya = 'assets/icons/lainnya.svg';
+  static const String pakaian = 'assets/icons/pakaian.png';
+  static const String tas = 'assets/icons/tas.png';
+  static const String sepatu = 'assets/icons/sepatu.png';
+  static const String lainnya = 'assets/icons/lainnya.png';
   static const String home = 'assets/icons/home.svg';
   static const String homeFill = 'assets/icons/home-bold.svg';
   static const String produk = 'assets/icons/produk.svg';

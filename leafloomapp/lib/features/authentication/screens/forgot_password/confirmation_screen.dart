@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:leafloom/features/authentication/screens/forgot_password/new_pass_screen.dart';
-import 'package:leafloom/features/authentication/widget/global_button_widget.dart';
-import 'package:leafloom/features/authentication/widget/global_text_field_widget.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/icons_constans.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
+import 'package:leafloom/widget/global_text_field_widget.dart';
+
+import '../../../../widget/global_button_widget.dart';
 
 class ConfirmPassScreen extends StatefulWidget {
   const ConfirmPassScreen({super.key});
@@ -86,17 +87,17 @@ class _ConfirmPassScreenState extends State<ConfirmPassScreen> {
                 ),
                 ElevatedButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      'Tetap di sini',
-                      style: LTextTheme.latoReguler14.copyWith(
-                        color: LColors.white,
-                      ),
-                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       backgroundColor: LColors.primaryNormal,
+                    ),
+                    child: Text(
+                      'Tetap di sini',
+                      style: LTextTheme.latoReguler14.copyWith(
+                        color: LColors.white,
+                      ),
                     )),
               ],
             ),

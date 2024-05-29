@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:leafloom/features/authentication/screens/forgot_password/confirmation_screen.dart';
-import 'package:leafloom/features/authentication/widget/global_button_widget.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/icons_constans.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
+import '../../../../widget/global_button_widget.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -38,7 +39,7 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
         body: Container(
           width: double.maxFinite,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 36,
           ),
@@ -49,14 +50,14 @@ class _OtpScreenState extends State<OtpScreen> {
                 "Masukkan Kode OTP",
                 style: LTextTheme.latoBold24,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 3,
               ),
               Text(
                 "Untuk mengkonfirmasi nomor telepon Anda, harap masukkan kode OTP yang dikirim melalui nomor telepon",
                 style: LTextTheme.latoReguler16,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 3,
               ),
               Text(
@@ -65,19 +66,19 @@ class _OtpScreenState extends State<OtpScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 26,
               ),
               CustomPinCodeTextField(
                 onChanged: (String value) {},
               ),
-              Align(
+              const Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
                   padding: EdgeInsets.only(right: 8),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 36,
               ),
               GlobalButtonWidget(

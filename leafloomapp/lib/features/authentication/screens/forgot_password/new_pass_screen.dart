@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:leafloom/features/authentication/screens/login/login.dart';
-import 'package:leafloom/features/authentication/widget/global_button_widget.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
+import '../../../../widget/global_button_widget.dart';
 
 class NewPasswordScreen extends StatelessWidget {
   const NewPasswordScreen({super.key});
@@ -42,7 +42,8 @@ class NewPasswordScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
                   );
                 },
               ),
