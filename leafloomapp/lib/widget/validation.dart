@@ -1,4 +1,11 @@
 class LValidator {
+  static String? validateEmptyText(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Field is required';
+    }
+    return null;
+  }
+
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'email is required';
