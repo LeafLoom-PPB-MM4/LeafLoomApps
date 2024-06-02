@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:leafloom/features/home/widget/card_product_widget.dart';
 import 'package:leafloom/features/home/widget/category_model.dart';
 import 'package:leafloom/features/home/widget/category_name.dart';
-import 'package:leafloom/widget/global_app_bar_widget.dart';
 import 'package:leafloom/features/home/widget/list_banner_widget.dart';
+import 'package:leafloom/widget/global_app_bar_widget.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -41,11 +41,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int sliderIndex = 0;
 
+  void _handleSearch() {
+    // Implementasi logika pencarian di sini
+    print('Search button pressed');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: GlobalAppBar(
-        onSearch: () {},
+        onSearch: _handleSearch,
         onCart: () {},
         onNotification: () {},
       ),

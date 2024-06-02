@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leafloom/widget/global_app_bar_widget.dart';
-import 'package:leafloom/utils/constants/colors.dart';
-import 'package:leafloom/utils/constants/icons_constans.dart';
+import 'package:leafloom/features/produk/detail_produk.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
@@ -13,26 +11,87 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, String>> products = [
+    {
+      'name': 'sepatu tutup motif bunga',
+      'price': 'Rp 553.000',
+      'image': 'assets/Produk_Sepatu.png',
+    },
+    {
+      'name': 'Selop Ecoprint Kulit Domba',
+      'price': 'Rp 455.000',
+      'image': 'assets/Produk_Sepatu.png',
+    },
+    {
+      'name': 'Sepatu Tutup Motif Daun',
+      'price': 'Rp 553.000',
+      'image': 'assets/Produk_Sepatu.png',
+    },
+    {
+      'name': 'Sepatu Tutup Wanita',
+      'price': 'Rp 553.000',
+      'image': 'assets/Produk_Sepatu.png',
+    },
+    {
+      'name': 'Product Name',
+      'price': 'Rp 900.000',
+      'image': 'assets/Produk_Sepatu.png',
+    },
+    {
+      'name': 'Product Name',
+      'price': 'Rp 900.000',
+      'image': 'assets/Produk_Sepatu.png',
+    },
+  ];
+
+  List<Map<String, String>> displayedProducts = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    _searchController.addListener(_onSearchChanged);
+    displayedProducts = products;
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
     super.dispose();
+  }
+
+  void _onSearchChanged() {
+    setState(() {
+      displayedProducts = products.where((product) {
+        return product['name']!
+            .toLowerCase()
+            .contains(_searchController.text.toLowerCase());
+      }).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GlobalAppBar(
-        onSearch: () {},
-        onCart: () {},
-        onNotification: () {},
+      appBar: AppBar(
+        title: const Text('Produk'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                hintText: 'Cari produk...',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,41 +106,31 @@ class _ProductScreenState extends State<ProductScreen>
 
   Widget _buildTabBar() {
     return Container(
-      height: 100, // Atur tinggi sesuai kebutuhan Anda
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          TabBar(
-            controller: _tabController,
-            indicatorWeight: 4,
-            tabs: [
-              _buildTab(IconsConstant.pakaian, 'Pakaian'),
-              _buildTab(IconsConstant.tas, 'Tas'),
-              _buildTab(IconsConstant.sepatu, 'Sepatu'),
-              _buildTab(IconsConstant.lainnya, 'Lainnya'),
-            ],
-          ),
-          SizedBox(height: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: TabBar(
+        controller: _tabController,
+        indicatorWeight: 4,
+        tabs: [
+          _buildTab('assets/icons/pakaian.png', 'Pakaian'),
+          _buildTab('assets/icons/tas.png', 'Tas'),
+          _buildTab('assets/icons/sepatu.png', 'Sepatu'),
+          _buildTab('assets/icons/lainnya.png', 'Lainnya'),
         ],
       ),
     );
   }
 
-  Widget _buildTab(String iconPath, String labelText) {
-    return Container(
-      margin: EdgeInsets.only(right: 16, top: 16, bottom: 16),
-      child: Tab(
-        child: Column(
-          children: [
-            Image.asset(
-              iconPath,
-              height: 50,
-              width: 50,
-              semanticLabel: labelText,
-            ),
-            SizedBox(height: 4),
-          ],
-        ),
+  Widget _buildTab(String imagePath, String labelText) {
+    return Tab(
+      child: Column(
+        children: [
+          Image.asset(
+            imagePath,
+            height: 30,
+          ),
+          const SizedBox(height: 4),
+          Text(labelText),
+        ],
       ),
     );
   }
@@ -92,69 +141,80 @@ class _ProductScreenState extends State<ProductScreen>
       child: TabBarView(
         controller: _tabController,
         children: [
-          _buildProductList(IconsConstant.pakaian),
-          _buildProductList(IconsConstant.tas),
-          _buildProductList(IconsConstant.sepatu),
-          _buildProductList(IconsConstant.lainnya),
+          _buildProductList(),
+          _buildProductList(),
+          _buildProductList(),
+          _buildProductList(),
         ],
       ),
     );
   }
 
-  Widget _buildProductList(String categoryIcon) {
+  Widget _buildProductList() {
     return GridView.builder(
-      padding: EdgeInsets.all(16),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
         childAspectRatio: 0.75,
       ),
-      itemCount: 6,
+      itemCount: displayedProducts.length,
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          color: LColors.softGrey, // Tambahkan warna pada Card
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 120, // Atur sesuai kebutuhan Anda
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                  image: DecorationImage(
-                    image: AssetImage(categoryIcon),
-                    fit: BoxFit.cover,
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductDetailScreen(),
+              ),
+            );
+          },
+          child: Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            color: Colors.grey.shade200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(8)),
+                    image: DecorationImage(
+                      image: AssetImage(displayedProducts[index]['image']!),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Product Name',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        displayedProducts[index]['name']!,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Rp900.000',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: LColors.black,
+                      const SizedBox(height: 4),
+                      Text(
+                        displayedProducts[index]['price']!,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
