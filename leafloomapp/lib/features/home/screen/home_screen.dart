@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafloom/features/home/screen/cart.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:leafloom/features/home/widget/card_product_widget.dart';
 import 'package:leafloom/features/home/widget/category_model.dart';
@@ -7,6 +8,7 @@ import 'package:leafloom/features/home/widget/list_banner_widget.dart';
 import 'package:leafloom/widget/global_app_bar_widget.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
+import 'package:leafloom/features/home/screen/notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -40,19 +42,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int sliderIndex = 0;
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, dynamic>> products = []; // Daftar produk
+  List<Map<String, dynamic>> displayedProducts = []; // Produk yang ditampilkan
 
-  void _handleSearch() {
-    // Implementasi logika pencarian di sini
-    print('Search button pressed');
+  void _onSearchChanged() {
+    setState(() {
+      displayedProducts = products.where((product) {
+        return product['name']!
+            .toLowerCase()
+            .contains(_searchController.text.toLowerCase());
+      }).toList();
+    });
+  }
+
+  void _handleNotification() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NotificationScreen()),
+    );
+  }
+
+  void _handleCart() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const CartScreen()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: GlobalAppBar(
-        onSearch: _handleSearch,
-        onCart: () {},
-        onNotification: () {},
+        onSearch:
+            _onSearchChanged, // Mengubah fungsi yang dipanggil saat pencarian berubah
+        onCart: _handleCart,
+        onNotification: _handleNotification,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -155,9 +180,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             scrollDirection: Axis.horizontal,
                             separatorBuilder: (context, index) =>
                                 const SizedBox(width: 16),
-                            itemCount: 5,
+                            itemCount: displayedProducts
+                                .length, // Menggunakan jumlah produk yang ditampilkan
                             itemBuilder: (context, index) {
-                              return const CardProductWidget(); // Your product widget
+                              return CardProductWidget(
+                                product: displayedProducts[index],
+                              );
                             },
                           ),
                         ),

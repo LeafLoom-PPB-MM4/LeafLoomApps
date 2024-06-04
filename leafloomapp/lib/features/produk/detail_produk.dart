@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: ProductScreen(),
-  ));
-}
-
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
 
@@ -274,7 +268,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 children: [
                   Center(
                     child: Image.asset(
-                      'assets/produk4.png',
+                      'assets/images/produk/produk4.png',
                       height: 200,
                     ),
                   ),
@@ -296,7 +290,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    children: [38, 39].map((size) {
+                    children: [38, 39, 40, 41, 42].map((size) {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -372,11 +366,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     onPressed: () {
                       // Handle add to cart action
                     },
-                    child: const Text('Tambah ke Keranjang'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 5, 66, 7),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
+                    ),
+                    child: Image.asset(
+                      'assets/icons/shopping-cart.png',
+                      width: 16,
+                      height: 16,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -389,6 +387,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       backgroundColor: const Color.fromARGB(255, 5, 66, 7),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
+                      textStyle: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],

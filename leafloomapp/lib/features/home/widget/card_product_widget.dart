@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 
 class CardProductWidget extends StatelessWidget {
-  const CardProductWidget({Key? key});
+  const CardProductWidget({Key? key, required Map<String, dynamic> product});
 
   @override
   Widget build(BuildContext context) {

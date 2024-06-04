@@ -126,7 +126,7 @@ class _ProductScreenState extends State<ProductScreen>
         children: [
           Image.asset(
             imagePath,
-            height: 30,
+            height: 22,
           ),
           const SizedBox(height: 4),
           Text(labelText),
