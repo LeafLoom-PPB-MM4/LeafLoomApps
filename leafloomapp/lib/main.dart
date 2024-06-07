@@ -11,13 +11,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:leafloom/features/authentication/screens/verify_email.dart';
 import 'package:leafloom/firebase_options.dart';
 import 'package:leafloom/navigation_menu.dart';
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-//       .then((value) => Get.put(AuthRepository()));
-//   runApp(const MyApp());
-// }
+import 'package:leafloom/features/admin/screens/admin_home_screen.dart';
+import 'package:leafloom/features/admin/screens/admin_product_screen.dart';
+import 'package:leafloom/features/admin/screens/admin_order_screen.dart';
+import 'package:leafloom/features/admin/screens/admin_edit_screen.dart'; // Import AdminEditScreen
 
 Future<void> main() async {
   final WidgetsBinding widgetsBinding =
@@ -46,6 +43,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/onboarding', page: () => OnBoardingScreen()),
         GetPage(name: '/verify-email', page: () => VerifyEmailScreen()),
         GetPage(name: '/navigation-menu', page: () => NavigationMenu()),
+        GetPage(name: '/admin-home', page: () => AdminHomeScreen()),
+        GetPage(name: '/admin-product', page: () => AdminProductScreen()),
+        GetPage(name: '/admin-order', page: () => AdminOrderScreen()),
+        GetPage(name: '/admin-edit', page: () => AdminEditScreen()),
       ],
     );
   }
