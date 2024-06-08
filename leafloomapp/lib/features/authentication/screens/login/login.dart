@@ -24,7 +24,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _remindMe = false;
-  final _formKey = GlobalKey<FormState>(); // Tambahkan GlobalKey<FormState>
+  final _formKey = GlobalKey<FormState>();
 
   void _toggleRemindMe(bool? value) {
     setState(() {
@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 12,
                       ),
                       TextFormField(
                         controller: controller.email,
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           filled: false,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 24),
                       SizedBox(
                         height: 20,
                         child: Text(
@@ -101,28 +101,39 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      TextFormField(
-                        controller: controller.password,
-                        validator: (value) =>
-                            LValidator.validatePassword(value),
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Masukkan Kata Sandi Anda',
-                          suffixIcon: IconButton(
-                            icon: SvgPicture.asset(
-                              IconsConstant.hide,
-                              color: LColors.lightGrey,
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Obx(
+                        () => TextFormField(
+                          controller: controller.password,
+                          validator: (value) =>
+                              LValidator.validateEmptyText(value),
+                          obscureText: controller.hidePassword.value,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(controller.hidePassword.value
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                controller.hidePassword.value =
+                                    !controller.hidePassword.value;
+                              },
                             ),
-                            onPressed: () {},
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 3, 46, 4),
+                              ),
+                            ),
+                            hintText: 'Kata Sandi',
+                            hintStyle:
+                                const TextStyle(color: LColors.lightGrey),
                           ),
-                          hintStyle: TextStyle(color: LColors.lightGrey),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: false,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -192,6 +203,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 8,
+                      ),
                       const Row(
                         children: [
                           Expanded(
@@ -214,10 +228,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(
+                        height: 8,
+                      ),
+                      SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
                           onPressed: () {
-                            // Tambahkan logika untuk tombol masuk dengan Google
+                            controller.googleSignIn();
                           },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Colors.black),
