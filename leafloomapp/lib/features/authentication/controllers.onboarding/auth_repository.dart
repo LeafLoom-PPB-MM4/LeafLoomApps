@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:leafloom/features/authentication/controllers.onboarding/signup_failure.dart';
-import 'package:leafloom/features/authentication/screens/login/login.dart';
 import 'package:leafloom/features/authentication/screens/onboarding/onboarding.dart';
 import 'package:leafloom/features/authentication/screens/verify_email.dart';
 import 'package:leafloom/navigation_menu.dart';
+
+import '../screens/login/login.dart';
 
 class AuthRepository extends GetxController {
   static AuthRepository get instance => Get.find();
@@ -17,7 +20,6 @@ class AuthRepository extends GetxController {
 
   @override
   void onReady() {
-    super.onReady();
     FlutterNativeSplash.remove();
     screenRedirect();
 
@@ -26,7 +28,14 @@ class AuthRepository extends GetxController {
     ever(firebaseUser, _setInitialScreen);
   }
 
+  //To Show Relative Screen
   void screenRedirect() async {
+    if (kDebugMode) {
+      print(
+          "======================================== DEBUG MODE ========================================");
+      print(deviceStorage.read('isFirstTime'));
+    }
+
     final user = _auth.currentUser;
     if (user != null) {
       if (user.emailVerified) {
@@ -55,6 +64,7 @@ class AuthRepository extends GetxController {
     }
   }
 
+  // Auth Registration
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -74,17 +84,40 @@ class AuthRepository extends GetxController {
     }
   }
 
+  //Auth Login
   Future<void> loginWithEmailAndPassword(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       _setInitialScreen(_auth.currentUser);
       print("User success login.");
-      screenRedirect(); // Tambahkan baris ini untuk mengarahkan ke NavigationMenu
+      screenRedirect();
     } on FirebaseAuthException catch (e) {
       print("FIREBASE AUTH EXCEPTION - ${e.message}");
       throw Exception("Login Gagal");
     } catch (e) {
       throw Exception("Login Gagal");
+    }
+  }
+
+//Google
+  Future<UserCredential> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      final credentials = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+
+      return await _auth.signInWithCredential(credentials);
+    } on FirebaseAuthException catch (e) {
+      final ex = SignupWithFailure.code(e.code);
+      print("FIREBASE AUTH EXCEPTION - ${ex.message}");
+      throw ex;
+    } catch (e) {
+      const ex = SignupWithFailure();
+      print("EXCEPTION - ${ex.message}");
+      throw ex;
     }
   }
 
