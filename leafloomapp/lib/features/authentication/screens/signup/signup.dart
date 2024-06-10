@@ -6,7 +6,6 @@ import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/sizes.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
 import 'package:leafloom/widget/validation.dart';
-
 import '../../controllers.onboarding/signup_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -18,6 +17,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool _agreeToPrivacyPolicy = false;
+  String _selectedRole = 'user';
 
   void _togglePrivacyPolicyAgreement(bool? value) {
     setState(() {
@@ -29,6 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final controller = Get.put(SignUpController());
     final _formKey = GlobalKey<FormState>();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -86,118 +87,114 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: LSizes.inputFieldRadius),
-
+                      const SizedBox(height: LSizes.sm),
                       // Email Field
                       TextFormField(
                         controller: controller.email,
-                        validator: (value) => LValidator.validateEmail(value),
                         decoration: InputDecoration(
+                          hintText: 'Email',
+                          hintStyle: const TextStyle(color: LColors.lightGrey),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: const BorderSide(
                               color: Color.fromARGB(255, 3, 46, 4),
                             ),
                           ),
-                          hintText: 'Email',
-                          hintStyle: const TextStyle(color: LColors.lightGrey),
                         ),
+                        validator: (value) => LValidator.validateEmail(value),
                       ),
-                      const SizedBox(height: LSizes.inputFieldRadius),
-
+                      const SizedBox(height: LSizes.sm),
                       // Phone Number Field
                       TextFormField(
                         controller: controller.phoneNo,
-                        validator: (value) =>
-                            LValidator.validatePhoneNumber(value),
                         decoration: InputDecoration(
+                          hintText: 'No. Telepon',
+                          hintStyle: const TextStyle(color: LColors.lightGrey),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: const BorderSide(
                               color: Color.fromARGB(255, 3, 46, 4),
                             ),
                           ),
-                          hintText: 'Nomor Telepon',
-                          hintStyle: const TextStyle(color: LColors.lightGrey),
                         ),
                       ),
-                      const SizedBox(height: LSizes.inputFieldRadius),
-
+                      const SizedBox(height: LSizes.sm),
                       // Password Field
                       Obx(
                         () => TextFormField(
                           controller: controller.password,
-                          validator: (value) =>
-                              LValidator.validatePassword(value),
                           obscureText: controller.hidePassword.value,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            suffixIcon: IconButton(
-                              icon: Icon(controller.hidePassword.value
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                              onPressed: () {
-                                controller.hidePassword.value =
-                                    !controller.hidePassword.value;
-                              },
-                            ),
+                            hintText: 'Password',
+                            hintStyle:
+                                const TextStyle(color: LColors.lightGrey),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: const BorderSide(
                                 color: Color.fromARGB(255, 3, 46, 4),
                               ),
                             ),
-                            hintText: 'Kata Sandi',
-                            hintStyle:
-                                const TextStyle(color: LColors.lightGrey),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                controller.hidePassword.value
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: LColors.lightGrey,
+                              ),
+                              onPressed: () {
+                                controller.hidePassword.value =
+                                    !controller.hidePassword.value;
+                              },
+                            ),
                           ),
+                          validator: (value) =>
+                              LValidator.validatePassword(value),
                         ),
                       ),
-                      const SizedBox(height: LSizes.inputFieldRadius),
-
-                      // Confirm Password Field
-                      TextFormField(
-                        controller: controller.password,
-                        obscureText: true,
+                      const SizedBox(height: LSizes.sm),
+                      // Role Selection Dropdown
+                      DropdownButtonFormField<String>(
+                        value: _selectedRole,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 3, 46, 4),
-                            ),
                           ),
-                          hintText: 'Konfirmasi Kata Sandi',
-                          hintStyle: const TextStyle(color: LColors.lightGrey),
                         ),
+                        items: <String>['user', 'admin']
+                            .map<DropdownMenuItem<String>>(
+                                (String value) => DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    ))
+                            .toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedRole = newValue!;
+                          });
+                        },
                       ),
-
-                      // Privacy Policy Agreement
+                      const SizedBox(height: LSizes.sm),
+                      // Privacy Policy Agreement Checkbox
                       Row(
                         children: [
                           Checkbox(
                             value: _agreeToPrivacyPolicy,
                             onChanged: _togglePrivacyPolicyAgreement,
                           ),
-                          Expanded(
+                          Flexible(
                             child: RichText(
                               text: TextSpan(
-                                text: 'Dengan Melanjutkan, Anda Menyetujui ',
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                children: [
+                                text: 'Saya setuju dengan ',
+                                style: TextStyle(color: LColors.textDark),
+                                children: <TextSpan>[
                                   TextSpan(
                                     text: 'Kebijakan Privasi',
                                     style: TextStyle(
-                                      color: LColors.primaryNormal,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                        color: LColors.primaryNormal,
+                                        fontWeight: FontWeight.bold),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        // Tambahkan logika untuk menampilkan kebijakan privasi
+                                        // Handle privacy policy tap
                                       },
                                   ),
                                 ],
@@ -206,35 +203,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
-
-                      const SizedBox(
-                        height: LSizes.spaceBtwItems,
-                      ),
-
                       // Sign Up Button
-                      SizedBox(
+                      Container(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              print("Button pressed. Registering user...");
-                              SignUpController.instance.registerUser(
-                                controller.email.text.trim(),
-                                controller.password.text.trim(),
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 2, 58, 4),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            'Daftar',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          onPressed: _agreeToPrivacyPolicy
+                              ? () {
+                                  if (_formKey.currentState!.validate()) {
+                                    controller.registerUser(
+                                      controller.email.text,
+                                      controller.password.text,
+                                      _selectedRole,
+                                    );
+                                  } else {
+                                    Get.snackbar('Error', 'Form tidak valid');
+                                  }
+                                }
+                              : null,
+                          child: const Text('Daftar'),
                         ),
                       ),
                     ],

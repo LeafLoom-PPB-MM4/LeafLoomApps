@@ -1,6 +1,10 @@
+import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:leafloom/features/home/screen/home_screen.dart';
-import 'package:leafloom/features/produk/detail_produk.dart';
+import 'package:get/get.dart';
+import 'package:leafloom/features/admin/controllers/home_controller.dart';
+import 'package:leafloom/features/admin/screens/admin_edit_screen.dart';
+
+import '../../authentication/controllers.onboarding/auth_repository.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   @override
@@ -8,19 +12,7 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
-  int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    ProductScreen(),
-    OrderScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  final AdminHomeController controller = Get.put(AdminHomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,93 +35,58 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         ),
         actions: [
           IconButton(
-            icon: Stack(
-              children: [
-                Icon(Icons.shopping_cart, color: Colors.grey),
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    constraints: BoxConstraints(
-                      minWidth: 12,
-                      minHeight: 12,
-                    ),
-                    child: Text(
-                      '3',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 8,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                )
-              ],
-            ),
+            icon: Icon(Icons.logout, color: Colors.grey),
             onPressed: () {
-              // Handle cart action
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.grey),
-            onPressed: () {
-              // Handle notification action
+              AuthRepository.instance.logout();
             },
           ),
         ],
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'Produk',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Pesanan',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: controller.streamData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            var listAllDocs = snapshot.data!.docs;
+            return ListView.builder(
+              itemCount: listAllDocs.length,
+              itemBuilder: (context, index) => ListTile(
+                leading: Image.network(
+                  listAllDocs[index]
+                      ['url'], // Mengambil URL gambar dari dokumen
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
+                title: Text(listAllDocs[index]['name']),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(listAllDocs[index]['category']),
+                    Text('Rp ${listAllDocs[index]['price']}'),
+                  ],
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.green),
+                      onPressed: () =>
+                          controller.deleteProduct(listAllDocs[index].id),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.green),
+                      onPressed: () => Get.to(AdminEditScreen(),
+                          arguments: listAllDocs[index].id),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Beranda'),
-    );
-  }
-}
-
-class ProductScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Produk'),
-    );
-  }
-}
-
-class OrderScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Pesanan'),
     );
   }
 }

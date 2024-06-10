@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/navigation-menu', page: () => NavigationMenu()),
         GetPage(name: '/admin-home', page: () => AdminHomeScreen()),
         GetPage(name: '/admin-product', page: () => AdminProductScreen()),
-        GetPage(name: '/admin-order', page: () => AdminOrderScreen()),
+        //GetPage(name: '/admin-order', page: () => AdminOrderScreen()),
         GetPage(name: '/admin-edit', page: () => AdminEditScreen()),
       ],
     );

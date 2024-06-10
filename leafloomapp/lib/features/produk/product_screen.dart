@@ -1,3 +1,4 @@
+import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:leafloom/features/produk/detail_produk.dart';
 
@@ -10,49 +11,20 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen>
     with SingleTickerProviderStateMixin {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   late TabController _tabController;
   final TextEditingController _searchController = TextEditingController();
-  List<Map<String, String>> products = [
-    {
-      'name': 'sepatu tutup motif bunga',
-      'price': 'Rp 553.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Selop Ecoprint Kulit Domba',
-      'price': 'Rp 455.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Sepatu Tutup Motif Daun',
-      'price': 'Rp 553.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Sepatu Tutup Wanita',
-      'price': 'Rp 553.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Product Name',
-      'price': 'Rp 900.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Product Name',
-      'price': 'Rp 900.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-  ];
+  List<Map<String, dynamic>> products = [];
 
-  List<Map<String, String>> displayedProducts = [];
+  List<Map<String, dynamic>> displayedProducts = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     _searchController.addListener(_onSearchChanged);
-    displayedProducts = products;
+    _fetchProducts();
   }
 
   @override
@@ -63,10 +35,22 @@ class _ProductScreenState extends State<ProductScreen>
     super.dispose();
   }
 
+  void _fetchProducts() async {
+    try {
+      final snapshot = await _firestore.collection('products').get();
+      setState(() {
+        products = snapshot.docs.map((doc) => doc.data()).toList();
+        displayedProducts = products;
+      });
+    } catch (e) {
+      print('Error fetching products: $e');
+    }
+  }
+
   void _onSearchChanged() {
     setState(() {
       displayedProducts = products.where((product) {
-        return product['name']!
+        return product['name']
             .toLowerCase()
             .contains(_searchController.text.toLowerCase());
       }).toList();
@@ -161,14 +145,22 @@ class _ProductScreenState extends State<ProductScreen>
       ),
       itemCount: displayedProducts.length,
       itemBuilder: (context, index) {
+        final productId = displayedProducts[index]['id'];
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProductDetailScreen(),
-              ),
-            );
+            if (productId != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailScreen(
+                    productId: productId,
+                  ),
+                ),
+              );
+            } else {
+              // Handle jika ID produk null
+              print('ID produk null');
+            }
           },
           child: Card(
             elevation: 0,
@@ -185,7 +177,8 @@ class _ProductScreenState extends State<ProductScreen>
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(8)),
                     image: DecorationImage(
-                      image: AssetImage(displayedProducts[index]['image']!),
+                      image: NetworkImage(displayedProducts[index]
+                          ['url']), // Ganti dengan URL gambar dari Firestore
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -196,7 +189,7 @@ class _ProductScreenState extends State<ProductScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        displayedProducts[index]['name']!,
+                        displayedProducts[index]['name'],
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -204,7 +197,7 @@ class _ProductScreenState extends State<ProductScreen>
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        displayedProducts[index]['price']!,
+                        displayedProducts[index]['price'],
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.black,

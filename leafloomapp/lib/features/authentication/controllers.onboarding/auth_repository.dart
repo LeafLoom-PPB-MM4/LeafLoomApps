@@ -4,19 +4,25 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:leafloom/features/admin/screens/admin_product_screen.dart';
+import 'package:leafloom/features/admin/widget/admin_nav_bar.dart';
 import 'package:leafloom/features/authentication/controllers.onboarding/signup_failure.dart';
 import 'package:leafloom/features/authentication/screens/onboarding/onboarding.dart';
 import 'package:leafloom/features/authentication/screens/verify_email.dart';
 import 'package:leafloom/navigation_menu.dart';
-
+import '../../admin/screens/admin_home_screen.dart';
 import '../screens/login/login.dart';
 
 class AuthRepository extends GetxController {
   static AuthRepository get instance => Get.find();
 
-  final _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final Rx<User?> firebaseUser;
   final deviceStorage = GetStorage();
+
+  FirebaseAuth get auth => _auth;
 
   @override
   void onReady() {
@@ -28,7 +34,7 @@ class AuthRepository extends GetxController {
     ever(firebaseUser, _setInitialScreen);
   }
 
-  //To Show Relative Screen
+  // To Show Relative Screen
   void screenRedirect() async {
     if (kDebugMode) {
       print(
@@ -39,9 +45,9 @@ class AuthRepository extends GetxController {
     final user = _auth.currentUser;
     if (user != null) {
       if (user.emailVerified) {
-        Get.offAll(() => const NavigationMenu());
+        _setInitialScreen(user);
       } else {
-        Get.offAll(() => const VerifyEmailScreen());
+        Get.offAll(() => VerifyEmailScreen());
       }
     } else {
       deviceStorage.writeIfNull('isFirstTime', true);
@@ -51,13 +57,30 @@ class AuthRepository extends GetxController {
     }
   }
 
-  void _setInitialScreen(User? user) {
-    if (user != null && user.emailVerified) {
-      print("Navigating to NavigationMenu");
-      Get.offAll(() => const NavigationMenu());
-    } else if (user != null && !user.emailVerified) {
-      print("Navigating to VerifyEmailScreen");
-      Get.offAll(() => const VerifyEmailScreen());
+  Future<void> _setInitialScreen(User? user) async {
+    if (user != null) {
+      final DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(user.uid).get();
+
+      if (userDoc.exists) {
+        final String role = userDoc['role'];
+
+        if (user.emailVerified) {
+          if (role == 'admin') {
+            print("Navigating to AdminHomeScreen");
+            Get.offAll(() => AdminMenu());
+          } else {
+            print("Navigating to NavigationMenu");
+            Get.offAll(() => const NavigationMenu());
+          }
+        } else {
+          print("Navigating to VerifyEmailScreen");
+          Get.offAll(() => const VerifyEmailScreen());
+        }
+      } else {
+        print("No user document found, navigating to LoginScreen");
+        Get.offAll(() => const LoginScreen());
+      }
     } else {
       print("Navigating to LoginScreen");
       Get.offAll(() => const LoginScreen());
@@ -84,13 +107,12 @@ class AuthRepository extends GetxController {
     }
   }
 
-  //Auth Login
+  // Auth Login
   Future<void> loginWithEmailAndPassword(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      _setInitialScreen(_auth.currentUser);
+      await _setInitialScreen(_auth.currentUser);
       print("User success login.");
-      screenRedirect();
     } on FirebaseAuthException catch (e) {
       print("FIREBASE AUTH EXCEPTION - ${e.message}");
       throw Exception("Login Gagal");
@@ -99,7 +121,7 @@ class AuthRepository extends GetxController {
     }
   }
 
-//Google
+  // Google Sign-In
   Future<UserCredential> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();

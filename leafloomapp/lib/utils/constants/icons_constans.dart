@@ -17,7 +17,7 @@ class IconsConstant {
   static const String produkFill = 'assets/icons/produk-bold.svg';
   static const String profile = 'assets/icons/profil.svg';
   static const String profileFill = 'assets/icons/profil-bold.svg';
-  static const String profileCircle = 'assets/icons/profil-circle.svg';
+  static const String profileCircle = 'assets/icons/profile-circle.svg';
   static const String arrowNext = 'assets/icons/arrow-circle-right.svg';
   static const String arrowDown = 'assets/icons/arrow-down.svg';
   static const String arrowTop = 'assets/icons/arrow-top.svg';

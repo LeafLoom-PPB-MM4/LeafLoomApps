@@ -1,160 +1,93 @@
+import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:leafloom/features/admin/controllers/edit_product_controller.dart';
 
-class AdminEditScreen extends StatefulWidget {
-  @override
-  _AdminEditScreenState createState() => _AdminEditScreenState();
-}
-
-class _AdminEditScreenState extends State<AdminEditScreen> {
-  int _selectedIndex = 1;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    ProductScreen(),
-    AdminOrderScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => _widgetOptions[index]),
-      );
-    });
-  }
+class AdminEditScreen extends StatelessWidget {
+  final EditProductController controller = Get.put(EditProductController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Detail Produk',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: const Text('Edit Produk'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.grey.shade300,
-                ),
-                SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nama Produk',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+      body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future: controller.getData(Get.arguments),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            var data = snapshot.data!.data() as Map<String, dynamic>;
+            controller.editName.text = data['name'];
+            controller.editCategory.text = data['category'];
+            controller.editPrice.text = data['price'];
+            controller.editUrl.text = data['url'];
+            controller.editDescription.text = data['description'];
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: controller.editName,
+                    autocorrect: false,
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                      labelText: 'Nama Produk',
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Tas Rustic Multimodel',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: controller.editCategory,
+                    autocorrect: false,
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                      labelText: 'Kategori Produk',
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Harga Produk',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: controller.editPrice,
+                    autocorrect: false,
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                      labelText: 'Harga Produk',
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Rp1.400.000',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: controller.editUrl,
+                    autocorrect: false,
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                      labelText: 'URL Produk',
                     ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Deskripsi Produk',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: controller.editDescription,
+                    autocorrect: false,
+                    decoration: const InputDecoration(
+                      labelText: 'Deskripsi Produk',
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => controller.editProduct(
+                      controller.editName.text,
+                      controller.editCategory.text,
+                      controller.editPrice.text,
+                      controller.editUrl.text,
+                      controller.editDescription.text,
+                      Get.arguments,
+                    ),
+                    child: const Text('Edit Produk'),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisi, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.',
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'Produk',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Pesanan',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Beranda'),
-    );
-  }
-}
-
-class ProductScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Produk'),
-    );
-  }
-}
-
-class AdminOrderScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Pesanan'),
     );
   }
 }

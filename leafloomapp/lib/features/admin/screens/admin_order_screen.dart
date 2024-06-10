@@ -13,22 +13,22 @@ class _AdminOrderScreenState extends State<AdminOrderScreen> {
       'category': 'Pakaian',
       'name': 'Nadya Set',
       'price': 'Rp688.000',
-      'image': 'assets/images/product_image_placeholder.png',
+      'image': 'assets/images/produk/produk1.png',
       'status': 'Confirm'
     },
   ];
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    ProductScreen(),
-    AdminOrderScreen(),
-  ];
+  // static List<Widget> _widgetOptions = <Widget>[
+  //   HomeScreen(),
+  //   ProductScreen(),
+  //   AdminOrderScreen(),
+  // ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,53 +66,53 @@ class _AdminOrderScreenState extends State<AdminOrderScreen> {
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'Produk',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Pesanan',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Beranda',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.edit),
+      //       label: 'Produk',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.list),
+      //       label: 'Pesanan',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.green,
+      //   unselectedItemColor: Colors.grey,
+      //   onTap: _onItemTapped,
+      // ),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Beranda'),
-    );
-  }
-}
+// class HomeScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('Beranda'),
+//     );
+//   }
+// }
 
-class ProductScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Produk'),
-    );
-  }
-}
+// class ProductScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('Produk'),
+//     );
+//   }
+// }
 
-class OrderScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Pesanan'),
-    );
-  }
-}
+// class OrderScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('Pesanan'),
+//     );
+//   }
+// }

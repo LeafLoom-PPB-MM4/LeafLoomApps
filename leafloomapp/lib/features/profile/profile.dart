@@ -201,7 +201,6 @@ class ProfileScreen extends StatelessWidget {
       iconName,
       width: 24,
       height: 24,
-      color: Colors.green[800],
     );
   }
 }

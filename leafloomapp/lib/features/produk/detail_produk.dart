@@ -1,228 +1,10 @@
+import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProductScreen> createState() => _ProductScreenState();
-}
-
-class _ProductScreenState extends State<ProductScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  final TextEditingController _searchController = TextEditingController();
-  List<Map<String, String>> products = [
-    {
-      'name': 'sepatu tutup motif bunga',
-      'price': 'Rp 553.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Selop Ecoprint Kulit Domba',
-      'price': 'Rp 455.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Sepatu Tutup Motif Daun',
-      'price': 'Rp 553.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Sepatu Tutup Wanita',
-      'price': 'Rp 553.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Product Name',
-      'price': 'Rp 900.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-    {
-      'name': 'Product Name',
-      'price': 'Rp 900.000',
-      'image': 'assets/Produk_Sepatu.png',
-    },
-  ];
-
-  List<Map<String, String>> displayedProducts = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 4, vsync: this);
-    _searchController.addListener(_onSearchChanged);
-    displayedProducts = products;
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _searchController.removeListener(_onSearchChanged);
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _onSearchChanged() {
-    setState(() {
-      displayedProducts = products.where((product) {
-        return product['name']!
-            .toLowerCase()
-            .contains(_searchController.text.toLowerCase());
-      }).toList();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Produk'),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: const InputDecoration(
-                hintText: 'Cari produk...',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildTabBar(),
-            _buildTabBarView(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabBar() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: TabBar(
-        controller: _tabController,
-        indicatorWeight: 4,
-        tabs: [
-          _buildTab(Icons.shopping_bag, 'Pakaian'),
-          _buildTab(Icons.work, 'Tas'),
-          _buildTab(Icons.emoji_people, 'Sepatu'),
-          _buildTab(Icons.miscellaneous_services, 'Lainnya'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTab(IconData icon, String labelText) {
-    return Tab(
-      child: Column(
-        children: [
-          Icon(
-            icon,
-            size: 30,
-          ),
-          const SizedBox(height: 4),
-          Text(labelText),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTabBarView() {
-    return Container(
-      height: MediaQuery.of(context).size.height - 200,
-      child: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildProductList(),
-          _buildProductList(),
-          _buildProductList(),
-          _buildProductList(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProductList() {
-    return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: displayedProducts.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ProductDetailScreen(),
-              ),
-            );
-          },
-          child: Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            color: Colors.grey.shade200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(8)),
-                    image: DecorationImage(
-                      image: AssetImage(displayedProducts[index]['image']!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        displayedProducts[index]['name']!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        displayedProducts[index]['price']!,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({Key? key}) : super(key: key);
+  final String productId;
+  const ProductDetailScreen({Key? key, required this.productId})
+      : super(key: key);
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -258,9 +40,32 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
         title: const Text('Sepatu Tutup Wanita'),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
+      body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future: FirebaseFirestore.instance
+            .collection('products')
+            .doc(widget.productId) // Gunakan ID produk dari widget
+            .get(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+
+          if (!snapshot.hasData || !snapshot.data!.exists) {
+            return Center(
+              child: Text('Produk tidak ditemukan.'),
+            );
+          }
+
+          final productData = snapshot.data!.data()!;
+          return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -339,62 +144,64 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     style: TextStyle(fontSize: 14),
                   ),
                   const SizedBox(height: 80),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: _decrementQuantity,
+                            icon: const Icon(Icons.remove),
+                          ),
+                          Text(
+                            '$_quantity',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          IconButton(
+                            onPressed: _incrementQuantity,
+                            icon: const Icon(Icons.add),
+                          ),
+                          const Spacer(),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Handle add to cart action
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 5, 66, 7),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 12),
+                            ),
+                            child: Image.asset(
+                              'assets/icons/shopping-cart.png',
+                              width: 16,
+                              height: 16,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Handle buy action
+                            },
+                            child: const Text('Beli'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 5, 66, 7),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 12),
+                              textStyle: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: _decrementQuantity,
-                    icon: const Icon(Icons.remove),
-                  ),
-                  Text(
-                    '$_quantity',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  IconButton(
-                    onPressed: _incrementQuantity,
-                    icon: const Icon(Icons.add),
-                  ),
-                  const Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle add to cart action
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 5, 66, 7),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 12),
-                    ),
-                    child: Image.asset(
-                      'assets/icons/shopping-cart.png',
-                      width: 16,
-                      height: 16,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle buy action
-                    },
-                    child: const Text('Beli'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 5, 66, 7),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 12),
-                      textStyle: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
