@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:leafloom/features/home/controller/cart_controller.dart';
+import 'package:leafloom/features/home/model/product_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String productId;
@@ -31,6 +33,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final CartController _cartController = Get.find<CartController>();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -66,6 +70,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           }
 
           final productData = snapshot.data!.data()!;
+          final price = double.tryParse(productData['price'].toString()) ?? 0.0;
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -100,7 +106,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Rp ${productData['price']}',
+                    'Rp $price',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -186,7 +192,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           const Spacer(),
                           ElevatedButton(
                             onPressed: () {
-                              // Handle add to cart action
+                              // Tambahkan item ke dalam keranjang
+                              final item = CartItem(
+                                productId: widget.productId,
+                                name: productData['name'],
+                                price: price,
+                                quantity: _quantity,
+                                imageUrl: productData['url'],
+                              );
+                              _cartController.addToCart(item);
+                              // Navigasi ke halaman keranjang belanja
+                              Get.toNamed('/cart');
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
@@ -203,7 +219,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           const SizedBox(width: 8),
                           ElevatedButton(
                             onPressed: () {
-                              // Handle buy action
+                              // Tambahkan item ke dalam keranjang
+                              final item = CartItem(
+                                productId: widget.productId,
+                                name: productData['name'],
+                                price: price,
+                                quantity: _quantity,
+                                imageUrl: productData['url'],
+                              );
+                              _cartController.addToCart(item);
+                              // Navigasi ke halaman keranjang belanja
+                              Get.toNamed('/cart');
                             },
                             child: const Text('Beli'),
                             style: ElevatedButton.styleFrom(
