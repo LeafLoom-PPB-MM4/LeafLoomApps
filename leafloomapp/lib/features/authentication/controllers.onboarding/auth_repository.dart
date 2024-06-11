@@ -34,6 +34,20 @@ class AuthRepository extends GetxController {
     ever(firebaseUser, _setInitialScreen);
   }
 
+  Future<Map<String, dynamic>?> fetchUserData() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        DocumentSnapshot userDoc =
+            await _firestore.collection('users').doc(user.uid).get();
+        return userDoc.data() as Map<String, dynamic>?;
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+    return null;
+  }
+
   // To Show Relative Screen
   void screenRedirect() async {
     if (kDebugMode) {

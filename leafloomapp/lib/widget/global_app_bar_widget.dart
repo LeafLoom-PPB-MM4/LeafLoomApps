@@ -4,21 +4,25 @@ import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/icons_constans.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
 
-class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
+class GlobalAppBar extends StatelessWidget {
   final VoidCallback? onSearch;
   final VoidCallback? onCart;
   final VoidCallback? onNotification;
+  final TextEditingController
+      searchController; // Tambahkan parameter controller
 
-  const GlobalAppBar({
-    super.key,
+  GlobalAppBar({
+    Key? key,
     this.onSearch,
     this.onCart,
     this.onNotification,
-  });
+    required this.searchController, // Tambahkan parameter required
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: kToolbarHeight + 80.0, // Set custom height
+      height: kToolbarHeight + 100, // Set custom height
       color: LColors.primaryLight,
       child: Center(
         child: Padding(
@@ -30,6 +34,8 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               Expanded(
                 child: TextField(
+                  controller:
+                      searchController, // Gunakan controller yang diberikan
                   decoration: InputDecoration(
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
@@ -38,7 +44,7 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
                         IconsConstant.search,
                       ),
                     ),
-                    prefixIconConstraints: BoxConstraints(
+                    prefixIconConstraints: const BoxConstraints(
                       minWidth: 24,
                       minHeight: 24,
                     ),
@@ -59,8 +65,6 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     filled: false,
                   ),
-                  onSubmitted: (value) =>
-                      onSearch?.call(), // Call onSearch function when submitted
                 ),
               ),
               IconButton(
@@ -81,8 +85,4 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight + 40.0); // Matches container height
 }

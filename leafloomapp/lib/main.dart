@@ -14,7 +14,8 @@ import 'package:leafloom/navigation_menu.dart';
 import 'package:leafloom/features/admin/screens/admin_home_screen.dart';
 import 'package:leafloom/features/admin/screens/admin_product_screen.dart';
 import 'package:leafloom/features/admin/screens/admin_order_screen.dart';
-import 'package:leafloom/features/admin/screens/admin_edit_screen.dart'; // Import AdminEditScreen
+import 'package:leafloom/features/admin/screens/admin_edit_screen.dart';
+import 'package:leafloom/utils/constants/colors.dart'; // Import AdminEditScreen
 
 Future<void> main() async {
   final WidgetsBinding widgetsBinding =
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Leafloom',
+      theme: ThemeData(
+        primaryColor: LColors.primaryNormal,
+      ),
       initialRoute: '/onboarding',
       getPages: [
         GetPage(name: '/login', page: () => LoginScreen()),
@@ -45,7 +49,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/navigation-menu', page: () => NavigationMenu()),
         GetPage(name: '/admin-home', page: () => AdminHomeScreen()),
         GetPage(name: '/admin-product', page: () => AdminProductScreen()),
-        //GetPage(name: '/admin-order', page: () => AdminOrderScreen()),
         GetPage(name: '/admin-edit', page: () => AdminEditScreen()),
       ],
     );

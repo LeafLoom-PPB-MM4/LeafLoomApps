@@ -8,6 +8,7 @@ class AddProductController extends GetxController {
   late TextEditingController categoryController;
   late TextEditingController priceController;
   late TextEditingController descriptionController;
+  var selectedCategory = 'Pakaian'.obs;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 

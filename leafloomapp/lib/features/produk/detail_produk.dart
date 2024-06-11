@@ -1,5 +1,6 @@
-import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String productId;
@@ -38,12 +39,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Navigator.pop(context);
           },
         ),
-        title: const Text('Sepatu Tutup Wanita'),
+        title: const Text('Detail Produk'),
       ),
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         future: FirebaseFirestore.instance
             .collection('products')
-            .doc(widget.productId) // Gunakan ID produk dari widget
+            .doc(widget.productId)
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -71,17 +72,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Image.asset(
-                      'assets/images/produk/produk4.png',
-                      height: 200,
+                  Container(
+                    height: 250,
+                    child: Center(
+                      child: Image.network(
+                        productData['url'],
+                        height: 200,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Rp 553.000',
+                  const SizedBox(height: 10),
+                  Text(
+                    '${productData['name']}',
                     style: TextStyle(
                       fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${productData['category']}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Rp ${productData['price']}',
+                    style: TextStyle(
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -139,8 +160,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+                  Text(
+                    productData['description'],
                     style: TextStyle(fontSize: 14),
                   ),
                   const SizedBox(height: 80),

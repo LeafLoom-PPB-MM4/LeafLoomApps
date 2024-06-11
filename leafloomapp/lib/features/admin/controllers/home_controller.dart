@@ -10,6 +10,14 @@ class AdminHomeController extends GetxController {
     return products.orderBy('category').snapshots();
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamDataCategory(
+      String category) {
+    return FirebaseFirestore.instance
+        .collection('products')
+        .where('category', isEqualTo: category)
+        .snapshots();
+  }
+
   void deleteProduct(String docID) {
     DocumentReference docRef = firestore.collection('products').doc(docID);
     try {

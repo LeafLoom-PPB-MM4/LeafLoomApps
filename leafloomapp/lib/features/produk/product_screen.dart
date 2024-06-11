@@ -1,6 +1,11 @@
-import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:leafloom/features/home/screen/cart.dart';
+import 'package:leafloom/features/home/screen/notification_screen.dart';
 import 'package:leafloom/features/produk/detail_produk.dart';
+
+import '../../widget/global_app_bar_widget.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
@@ -12,11 +17,10 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen>
     with SingleTickerProviderStateMixin {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   late TabController _tabController;
   final TextEditingController _searchController = TextEditingController();
-  List<Map<String, dynamic>> products = [];
 
+  List<Map<String, dynamic>> products = [];
   List<Map<String, dynamic>> displayedProducts = [];
 
   @override
@@ -39,7 +43,11 @@ class _ProductScreenState extends State<ProductScreen>
     try {
       final snapshot = await _firestore.collection('products').get();
       setState(() {
-        products = snapshot.docs.map((doc) => doc.data()).toList();
+        products = snapshot.docs.map((doc) {
+          var data = doc.data();
+          data['id'] = doc.id;
+          return data;
+        }).toList();
         displayedProducts = products;
       });
     } catch (e) {
@@ -57,29 +65,37 @@ class _ProductScreenState extends State<ProductScreen>
     });
   }
 
+  void _handleNotification() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NotificationScreen()),
+    );
+  }
+
+  void _handleCart() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const CartScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Produk'),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: const InputDecoration(
-                hintText: 'Cari produk...',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-          ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: GlobalAppBar(
+          searchController: _searchController,
+          onCart: _handleCart,
+          onNotification: _handleNotification,
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: 16,
+            ),
             _buildTabBar(),
             _buildTabBarView(),
           ],
@@ -125,42 +141,33 @@ class _ProductScreenState extends State<ProductScreen>
       child: TabBarView(
         controller: _tabController,
         children: [
-          _buildProductList(),
-          _buildProductList(),
-          _buildProductList(),
-          _buildProductList(),
+          _buildProductList('Pakaian'),
+          _buildProductList('Tas'),
+          _buildProductList('Sepatu'),
+          _buildProductList('Lainnya'),
         ],
       ),
     );
   }
 
-  Widget _buildProductList() {
+  Widget _buildProductList(String category) {
+    List<Map<String, dynamic>> filteredProducts = displayedProducts
+        .where((product) => product['category'] == category)
+        .toList();
     return GridView.builder(
       padding: const EdgeInsets.all(16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
         childAspectRatio: 0.75,
       ),
-      itemCount: displayedProducts.length,
+      itemCount: filteredProducts.length,
       itemBuilder: (context, index) {
-        final productId = displayedProducts[index]['id'];
         return GestureDetector(
           onTap: () {
-            if (productId != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProductDetailScreen(
-                    productId: productId,
-                  ),
-                ),
-              );
-            } else {
-              // Handle jika ID produk null
-              print('ID produk null');
-            }
+            Get.to(
+                ProductDetailScreen(productId: filteredProducts[index]['id']));
           },
           child: Card(
             elevation: 0,
@@ -168,45 +175,54 @@ class _ProductScreenState extends State<ProductScreen>
               borderRadius: BorderRadius.circular(8),
             ),
             color: Colors.grey.shade200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(8)),
-                    image: DecorationImage(
-                      image: NetworkImage(displayedProducts[index]
-                          ['url']), // Ganti dengan URL gambar dari Firestore
-                      fit: BoxFit.cover,
+            child: SizedBox(
+              width: 120,
+              height: 100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Container(
+                      height: 120,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(8)),
+                        image: DecorationImage(
+                          image: NetworkImage(filteredProducts[index]['url']),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        displayedProducts[index]['name'],
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          filteredProducts[index]['name'],
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        displayedProducts[index]['price'],
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
+                        const SizedBox(height: 4),
+                        Text(
+                          'Rp ${filteredProducts[index]['price']}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

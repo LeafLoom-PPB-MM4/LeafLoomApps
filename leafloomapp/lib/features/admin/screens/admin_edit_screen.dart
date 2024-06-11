@@ -2,6 +2,8 @@ import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafloom/features/admin/controllers/edit_product_controller.dart';
+import 'package:leafloom/utils/constants/colors.dart';
+import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
 
 class AdminEditScreen extends StatelessWidget {
   final EditProductController controller = Get.put(EditProductController());
@@ -10,7 +12,8 @@ class AdminEditScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Produk'),
+        title: const Text('Edit Produk',
+            style: TextStyle(color: LColors.textDarker)),
       ),
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         future: controller.getData(Get.arguments),
@@ -18,7 +21,7 @@ class AdminEditScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             var data = snapshot.data!.data() as Map<String, dynamic>;
             controller.editName.text = data['name'];
-            controller.editCategory.text = data['category'];
+            controller.selectedCategory.value = data['category'];
             controller.editPrice.text = data['price'];
             controller.editUrl.text = data['url'];
             controller.editDescription.text = data['description'];
@@ -26,60 +29,44 @@ class AdminEditScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  TextField(
+                  _buildTextField(
                     controller: controller.editName,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      labelText: 'Nama Produk',
-                    ),
+                    labelText: 'Nama Produk',
                   ),
                   SizedBox(height: 16),
-                  TextField(
-                    controller: controller.editCategory,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      labelText: 'Kategori Produk',
-                    ),
-                  ),
+                  _buildDropdownButtonFormField(controller),
                   SizedBox(height: 16),
-                  TextField(
+                  _buildTextField(
                     controller: controller.editPrice,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      labelText: 'Harga Produk',
-                    ),
+                    labelText: 'Harga Produk',
                   ),
                   SizedBox(height: 16),
-                  TextField(
+                  _buildTextField(
                     controller: controller.editUrl,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      labelText: 'URL Produk',
-                    ),
+                    labelText: 'URL Produk',
                   ),
                   SizedBox(height: 16),
-                  TextField(
+                  _buildTextField(
                     controller: controller.editDescription,
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      labelText: 'Deskripsi Produk',
-                    ),
+                    labelText: 'Deskripsi Produk',
                   ),
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () => controller.editProduct(
                       controller.editName.text,
-                      controller.editCategory.text,
+                      controller.selectedCategory.value,
                       controller.editPrice.text,
                       controller.editUrl.text,
                       controller.editDescription.text,
                       Get.arguments,
                     ),
-                    child: const Text('Edit Produk'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: LColors.primaryNormal,
+                    ),
+                    child: const Text(
+                      'Edit Produk',
+                      style: TextStyle(color: LColors.white),
+                    ),
                   ),
                 ],
               ),
@@ -87,6 +74,70 @@ class AdminEditScreen extends StatelessWidget {
           }
           return Center(child: CircularProgressIndicator());
         },
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+  }) {
+    return TextField(
+      controller: controller,
+      autocorrect: false,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: TextStyle(color: LColors.textDarker),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: LColors.primaryNormal),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: LColors.primaryNormal),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: LColors.primaryNormal),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDropdownButtonFormField(EditProductController controller) {
+    return Obx(
+      () => DropdownButtonFormField<String>(
+        value: controller.selectedCategory.value,
+        onChanged: (newValue) {
+          controller.selectedCategory.value = newValue!;
+        },
+        items: <String>['Pakaian', 'Tas', 'Sepatu', 'Lainnya']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: TextStyle(color: LColors.textDarker),
+            ),
+          );
+        }).toList(),
+        decoration: InputDecoration(
+          labelText: 'Kategori Produk',
+          labelStyle: TextStyle(color: LColors.textDarker),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: LColors.primaryNormal),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: LColors.primaryNormal),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: LColors.primaryNormal),
+          ),
+        ),
       ),
     );
   }

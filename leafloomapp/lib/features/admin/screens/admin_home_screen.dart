@@ -51,8 +51,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               itemCount: listAllDocs.length,
               itemBuilder: (context, index) => ListTile(
                 leading: Image.network(
-                  listAllDocs[index]
-                      ['url'], // Mengambil URL gambar dari dokumen
+                  listAllDocs[index]['url'],
                   width: 50,
                   height: 50,
                   fit: BoxFit.cover,

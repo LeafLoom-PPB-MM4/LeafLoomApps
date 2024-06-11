@@ -8,6 +8,7 @@ class EditProductController extends GetxController {
   late TextEditingController editCategory;
   late TextEditingController editPrice;
   late TextEditingController editDescription;
+  var selectedCategory = ''.obs;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
