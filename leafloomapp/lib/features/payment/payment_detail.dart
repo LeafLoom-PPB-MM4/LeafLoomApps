@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafloom/features/authentication/screens/payment/success.dart';
+import 'package:leafloom/features/payment/success.dart';
 import 'package:leafloom/features/home/controller/cart_controller.dart';
+import 'package:leafloom/utils/constants/colors.dart';
 
 class PaymentDetails extends StatefulWidget {
   const PaymentDetails({Key? key}) : super(key: key);
@@ -12,23 +13,27 @@ class PaymentDetails extends StatefulWidget {
 
 class _PaymentDetailsState extends State<PaymentDetails> {
   final CartController cartController = Get.find();
+  int value = 0;
+  final List<String> paymentLabels = ['Credit Card', 'PayPal', 'Bank Transfer'];
+  final List<IconData> paymentIcons = [
+    Icons.credit_card,
+    Icons.account_balance_wallet,
+    Icons.account_balance
+  ];
   String cardNumber = "5450 7879 4864 7854";
   String cardExpiry = "10/25";
   String cardHolderName = "Sukhaenah Tri Utami";
   String bankName = "Bank BNI";
   String cvv = "456";
 
-  final Color kWhiteColor = Colors.white;
-  final Color kLightColor = Colors.grey;
-  final Color kPrimaryColor = Colors.blue;
-  final Color kDarkColor = Colors.black;
+  final Color kDarkColor = LColors.black;
 
   final List<PaymentDetail> paymentDetailList = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kWhiteColor,
+      backgroundColor: LColors.white,
       appBar: AppBar(
         title: const Text("Payment Details"),
         leading: IconButton(
@@ -45,62 +50,62 @@ class _PaymentDetailsState extends State<PaymentDetails> {
               cardHolderName: cardHolderName,
               bankName: bankName,
               cvv: cvv,
-              frontBackground: const CardBackground(color: Colors.black),
+              frontBackground: CardBackground(color: LColors.primaryNormal),
               backBackground: const CardBackground(color: Colors.white),
               cardType: CardType.masterCard,
               showShadow: true,
             ),
             const StickyLabel(text: "Transaction Details"),
+            SizedBox(
+              height: 10,
+            ),
             ListView.builder(
               shrinkWrap: true,
-              itemCount: paymentDetailList.length,
+              itemCount: cartController.cartItems.length,
               itemBuilder: (context, index) {
-                final paymentDetail = paymentDetailList[index];
+                final product = cartController.cartItems[index];
                 return ListTile(
-                  title: Text(paymentDetail.details),
-                  subtitle: Text(paymentDetail.date),
-                  trailing: Text(
-                    'Rp ${paymentDetail.amount}',
-                    style: TextStyle(color: paymentDetail.textColor),
-                  ),
+                  leading: Image.network(product.imageUrl),
+                  title: Text(product.name),
+                  subtitle: Text('Rp ${product.price}00'),
                 );
               },
             ),
-            const StickyLabel(text: "Nota Penjualan"),
+            const StickyLabel(text: "Total Pembayaran"),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16.0),
-              color: Colors.grey[200],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Total Pembayaran',
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   SizedBox(height: 8.0),
                   Text(
-                    'Rp ${cartController.totalPrice.toStringAsFixed(2)}',
+                    'Rp ${cartController.totalPrice.toStringAsFixed(2)}0',
                     style: const TextStyle(fontSize: 16.0),
-                  ),
-                  const StickyLabel(text: "Transaction Details"),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: cartController.cartItems.length,
-                    itemBuilder: (context, index) {
-                      final product = cartController.cartItems[index];
-                      return ListTile(
-                        leading: Image.network(product.imageUrl),
-                        title: Text(product.name),
-                        subtitle: Text('Rp ${product.price}'),
-                      );
-                    },
                   ),
                 ],
               ),
+            ),
+            const StickyLabel(text: "Payment Method"),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: paymentLabels.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: Radio(
+                    activeColor: LColors.borderPrimary,
+                    value: index,
+                    groupValue: value,
+                    onChanged: (int? i) => setState(() => value = i!),
+                  ),
+                  title: Text(
+                    paymentLabels[index],
+                    style: TextStyle(color: kDarkColor),
+                  ),
+                  trailing:
+                      Icon(paymentIcons[index], color: LColors.borderPrimary),
+                );
+              },
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
@@ -191,7 +196,7 @@ class CreditCard extends StatelessWidget {
         color: frontBackground.color,
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: showShadow
-            ? [BoxShadow(color: Colors.black26, blurRadius: 10.0)]
+            ? [BoxShadow(color: LColors.primaryLight, blurRadius: 10.0)]
             : [],
       ),
       child: Column(

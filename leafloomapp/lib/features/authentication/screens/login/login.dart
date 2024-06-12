@@ -50,14 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: LSizes.md),
-                      Text(
-                        'Selamat Datang Kembali!',
-                        style: LTextTheme.latoBold24.copyWith(
-                          color: LColors.textDark,
+                      Container(
+                        child: Image.asset(
+                          'assets/logos/appLogo.png',
+                          width: 300,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 48),
                     ],
                   ),
                 ),
@@ -66,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 16),
                       SizedBox(
                         height: 20,
                         child: Text(

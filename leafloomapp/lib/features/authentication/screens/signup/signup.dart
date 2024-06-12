@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafloom/common/styles/spacing_styles.dart';
+import 'package:leafloom/features/authentication/screens/login/login.dart';
 import 'package:leafloom/utils/constants/colors.dart';
 import 'package:leafloom/utils/constants/sizes.dart';
 import 'package:leafloom/utils/theme/custon_themes/text_theme.dart';
@@ -41,14 +42,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 // Welcome title
                 Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: LSizes.md),
-                      child: Text(
-                        'Selamat Datang di LeafLoom!',
-                        style: LTextTheme.latoBold24.copyWith(
-                          color: LColors.textDark,
-                        ),
-                        textAlign: TextAlign.center,
+                    Container(
+                      child: Image.asset(
+                        'assets/logos/appLogo.png',
+                        width: 300,
                       ),
                     ),
                   ],
@@ -62,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text('Daftar ke Aplikasi LeafLoom',
-                        style: LTextTheme.latoMedium18.copyWith(
+                        style: LTextTheme.latoMedium16.copyWith(
                           color: LColors.textDark,
                         )),
                   ),
@@ -174,12 +171,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       ),
                       const SizedBox(height: LSizes.sm),
-                      // Privacy Policy Agreement Checkbox
                       Row(
                         children: [
                           Checkbox(
                             value: _agreeToPrivacyPolicy,
                             onChanged: _togglePrivacyPolicyAgreement,
+                            checkColor: LColors.white,
+                            activeColor: LColors.primaryNormal,
                           ),
                           Flexible(
                             child: RichText(
@@ -220,8 +218,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                 }
                               : null,
-                          child: const Text('Daftar'),
+                          child: const Text(
+                            'Daftar',
+                            style: TextStyle(color: LColors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: LColors.primaryNormal),
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Sudah punya akun?',
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Get.offAll(() => LoginScreen());
+                            },
+                            child: Text(
+                              'Login',
+                              style: LTextTheme.latoSemiBold14.copyWith(
+                                color: LColors.primaryNormal,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

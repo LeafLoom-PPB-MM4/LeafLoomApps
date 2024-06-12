@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:leafloom/features/produk/product_screen.dart';
+import 'package:leafloom/navigation_menu.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
+
+import '../../utils/constants/colors.dart';
 
 class Success extends StatefulWidget {
   const Success({Key? key}) : super(key: key);
@@ -40,6 +45,17 @@ class _SuccessState extends State<Success> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.offAll(() => NavigationMenu());
+                  },
+                  child: const Text(
+                    'Kembali',
+                    style: TextStyle(color: LColors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: LColors.primaryNormal,
+                  )),
               const SizedBox(height: 20),
             ],
           ),
