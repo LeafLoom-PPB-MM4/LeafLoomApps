@@ -51,12 +51,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             .doc(widget.productId)
             .get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
           if (snapshot.hasError) {
             return Center(
               child: Text('Error: ${snapshot.error}'),
@@ -106,7 +100,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Rp $price',
+                    'Rp${productData['price']}',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -217,29 +211,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Tambahkan item ke dalam keranjang
-                              final item = CartItem(
-                                productId: widget.productId,
-                                name: productData['name'],
-                                price: price,
-                                quantity: _quantity,
-                                imageUrl: productData['url'],
-                              );
-                              _cartController.addToCart(item);
-                              // Navigasi ke halaman keranjang belanja
-                              Get.toNamed('/cart');
-                            },
-                            child: const Text('Beli'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 5, 66, 7),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 12),
-                              textStyle: const TextStyle(color: Colors.white),
-                            ),
-                          ),
                         ],
                       ),
                     ),

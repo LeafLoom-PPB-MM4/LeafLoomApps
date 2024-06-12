@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafloom/features/authentication/screens/payment/payment_detail.dart';
 import 'package:leafloom/features/home/controller/cart_controller.dart';
-import 'package:open_whatsapp/open_whatsapp.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -43,14 +46,7 @@ class CartScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  String message = "Halo, saya ingin memesan:\n";
-                  cartController.cartItems.forEach((product) {
-                    message += "- ${product.name}\n";
-                  });
-                  message += "Terima kasih.";
-
-                  FlutterOpenWhatsapp.sendSingleMessage(
-                      "6281234047471", message);
+                  Get.to(() => PaymentDetails());
                 },
                 child: Text(
                   'Lanjutkan Pemesanan',
@@ -65,5 +61,37 @@ class CartScreen extends StatelessWidget {
         );
       }),
     );
+  }
+
+  void openwhatsapp(BuildContext context, List cartItems) async {
+    var whatsapp = '+6285600131115';
+    var message = 'Halo, saya ingin memesan:\n' +
+        cartItems.map((item) => '- ${item.name}: Rp ${item.price}').join('\n');
+    var whatsappUrlAndroid =
+        'whatsapp://send?phone=$whatsapp&text=${Uri.encodeComponent(message)}';
+    var whatsappUrlIOS =
+        'https://wa.me/$whatsapp?text=${Uri.encodeComponent(message)}';
+
+    if (Platform.isIOS) {
+      if (await canLaunch(whatsappUrlIOS)) {
+        await launch(whatsappUrlIOS);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Tidak dapat membuka WhatsApp'),
+          ),
+        );
+      }
+    } else {
+      if (await canLaunch(whatsappUrlAndroid)) {
+        await launch(whatsappUrlAndroid);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Tidak dapat membuka WhatsApp'),
+          ),
+        );
+      }
+    }
   }
 }
