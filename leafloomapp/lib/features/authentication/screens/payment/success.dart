@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
 
-class Success extends StatelessWidget {
+class Success extends StatefulWidget {
+  const Success({Key? key}) : super(key: key);
+
+  @override
+  _SuccessState createState() => _SuccessState();
+}
+
+class _SuccessState extends State<Success> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,21 +40,6 @@ class Success extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                },
-                child: const Text('OK'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
               const SizedBox(height: 20),
             ],
           ),

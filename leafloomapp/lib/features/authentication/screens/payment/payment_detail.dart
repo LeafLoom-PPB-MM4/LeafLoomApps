@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafloom/features/authentication/screens/payment/success.dart';
 import 'package:leafloom/features/home/controller/cart_controller.dart';
 
 class PaymentDetails extends StatefulWidget {
@@ -13,8 +14,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   final CartController cartController = Get.find();
   String cardNumber = "5450 7879 4864 7854";
   String cardExpiry = "10/25";
-  String cardHolderName = "John Travolta";
-  String bankName = "ICICI Bank";
+  String cardHolderName = "Sukhaenah Tri Utami";
+  String bankName = "Bank BNI";
   String cvv = "456";
 
   final Color kWhiteColor = Colors.white;
@@ -85,13 +86,26 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     'Rp ${cartController.totalPrice.toStringAsFixed(2)}',
                     style: const TextStyle(fontSize: 16.0),
                   ),
+                  const StickyLabel(text: "Transaction Details"),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: cartController.cartItems.length,
+                    itemBuilder: (context, index) {
+                      final product = cartController.cartItems[index];
+                      return ListTile(
+                        leading: Image.network(product.imageUrl),
+                        title: Text(product.name),
+                        subtitle: Text('Rp ${product.price}'),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // Implementasi fungsi untuk melanjutkan proses pembayaran
+                Get.to(Success());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 1, 94, 49),
