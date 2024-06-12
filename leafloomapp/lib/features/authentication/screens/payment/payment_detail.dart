@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:leafloom/features/home/controller/cart_controller.dart';
 
 class PaymentDetails extends StatefulWidget {
-  const PaymentDetails({super.key});
+  const PaymentDetails({Key? key}) : super(key: key);
 
   @override
   _PaymentDetailsState createState() => _PaymentDetailsState();
@@ -11,29 +11,18 @@ class PaymentDetails extends StatefulWidget {
 
 class _PaymentDetailsState extends State<PaymentDetails> {
   final CartController cartController = Get.find();
-  String cardNumber = "5450 7879 4864 7854",
-      cardExpiry = "10/25",
-      cardHolderName = "John Travolta",
-      bankName = "ICICI Bank",
-      cvv = "456";
+  String cardNumber = "5450 7879 4864 7854";
+  String cardExpiry = "10/25";
+  String cardHolderName = "John Travolta";
+  String bankName = "ICICI Bank";
+  String cvv = "456";
 
   final Color kWhiteColor = Colors.white;
   final Color kLightColor = Colors.grey;
   final Color kPrimaryColor = Colors.blue;
   final Color kDarkColor = Colors.black;
 
-  final List<PaymentDetail> paymentDetailList = [
-    PaymentDetail(
-        date: "12/06/2023",
-        details: "Amazon Purchase",
-        amount: "50.00",
-        textColor: Colors.red),
-    PaymentDetail(
-        date: "14/06/2023",
-        details: "Spotify Subscription",
-        amount: "9.99",
-        textColor: Colors.green),
-  ];
+  final List<PaymentDetail> paymentDetailList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -55,26 +44,65 @@ class _PaymentDetailsState extends State<PaymentDetails> {
               cardHolderName: cardHolderName,
               bankName: bankName,
               cvv: cvv,
-              // showBackSide: true,
-              frontBackground: CardBackground(color: Colors.black),
-              backBackground: CardBackground(color: Colors.white),
+              frontBackground: const CardBackground(color: Colors.black),
+              backBackground: const CardBackground(color: Colors.white),
               cardType: CardType.masterCard,
               showShadow: true,
             ),
             const StickyLabel(text: "Transaction Details"),
-            // Expanded(
-            //   child: ListView.builder(
-            //     itemCount: cartController.cartItems.length,
-            //     itemBuilder: (context, index) {
-            //       final product = cartController.cartItems[index];
-            //       return ListTile(
-            //         leading: Image.network(product.imageUrl),
-            //         title: Text(product.name),
-            //         subtitle: Text('Rp ${product.price}'),
-            //       );
-            //     },
-            //   ),
-            // ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: paymentDetailList.length,
+              itemBuilder: (context, index) {
+                final paymentDetail = paymentDetailList[index];
+                return ListTile(
+                  title: Text(paymentDetail.details),
+                  subtitle: Text(paymentDetail.date),
+                  trailing: Text(
+                    'Rp ${paymentDetail.amount}',
+                    style: TextStyle(color: paymentDetail.textColor),
+                  ),
+                );
+              },
+            ),
+            const StickyLabel(text: "Nota Penjualan"),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              color: Colors.grey[200],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Total Pembayaran',
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Rp ${cartController.totalPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 16.0),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                // Implementasi fungsi untuk melanjutkan proses pembayaran
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 1, 94, 49),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0, vertical: 12.0),
+              ),
+              child: Text(
+                'Lanjutkan',
+                style: const TextStyle(fontSize: 16.0, color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),
@@ -170,10 +198,6 @@ class CreditCard extends StatelessWidget {
           const SizedBox(height: 8.0),
           Text(bankName, style: TextStyle(color: Colors.white, fontSize: 16.0)),
           const SizedBox(height: 8.0),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Icon(cardType.icon, color: Colors.white, size: 40.0),
-          ),
         ],
       ),
     );
@@ -186,10 +210,4 @@ class CardBackground {
   const CardBackground({required this.color});
 }
 
-enum CardType {
-  masterCard(Icons.credit_card);
-
-  final IconData icon;
-
-  const CardType(this.icon);
-}
+enum CardType { masterCard }

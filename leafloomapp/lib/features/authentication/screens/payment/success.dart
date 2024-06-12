@@ -2,14 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:leafloom/utils/constants/image_strings.dart';
 
-class Success extends StatefulWidget {
-  Success({required Key key}) : super(key: key);
-
-  @override
-  _SuccessState createState() => _SuccessState();
-}
-
-class _SuccessState extends State<Success> {
+class Success extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,32 +33,26 @@ class _SuccessState extends State<Success> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+                child: const Text('OK'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               const SizedBox(height: 20),
             ],
           ),
         ),
       ),
-
-      // body: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     EmptySection(
-      //       emptyImg: success,
-      //       emptyMsg: 'Successful !!',
-      //     ),
-      //     SubTitle(
-      //       subTitleText: 'Your payment was done successfully',
-      //     ),
-      //     DefaultButton(
-      //       btnText: 'Ok',
-      //       onPressed: () => Navigator.of(context).push(
-      //         MaterialPageRoute(
-      //           builder: (context) => BottomNavBar(0),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

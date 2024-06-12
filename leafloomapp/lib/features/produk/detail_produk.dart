@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafloom/features/home/controller/cart_controller.dart';
-import 'package:leafloom/features/home/model/product_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String productId;
@@ -58,7 +57,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           }
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return Center(
+            return const Center(
               child: Text('Produk tidak ditemukan.'),
             );
           }
@@ -84,24 +83,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    '${productData['name']}',
-                    style: TextStyle(
+                    productData['name'],
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    '${productData['category']}',
-                    style: TextStyle(
+                    productData['category'],
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Rp${productData['price']}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -162,7 +161,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   const SizedBox(height: 8),
                   Text(
                     productData['description'],
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                   const SizedBox(height: 80),
                   Align(
@@ -186,7 +185,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           const Spacer(),
                           ElevatedButton(
                             onPressed: () {
-                              // Tambahkan item ke dalam keranjang
                               final item = CartItem(
                                 productId: widget.productId,
                                 name: productData['name'],
@@ -195,7 +193,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 imageUrl: productData['url'],
                               );
                               _cartController.addToCart(item);
-                              // Navigasi ke halaman keranjang belanja
                               Get.toNamed('/cart');
                             },
                             style: ElevatedButton.styleFrom(
